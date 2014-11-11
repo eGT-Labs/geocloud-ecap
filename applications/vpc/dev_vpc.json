@@ -1,0 +1,66 @@
+		{
+			"name": "dev-vpc",
+			"ip_block": "10.20.0.0/16",
+			"route-tables": [
+				{
+					"name": "internet",
+					"routes": [
+						{
+							"destination_network":"0.0.0.0/0",
+							"gateway":"#INTERNET"
+						}
+					]
+				},
+				{
+					"name":"private",
+					"routes": [
+						{
+							"destination_network":"0.0.0.0/0",
+							"nat_host_name":"dev-vpc-bastion"
+						}
+					]
+				}
+			],
+			"dependencies":[
+				{
+					"type":"server",
+					"name":"dev-vpc-bastion"
+				}
+			],
+			"subnets": [
+<%
+azs = CAP::Deploy.listAZs
+counter=1
+azs.each do |az|
+	if !az.nil?
+%>
+				{
+					"name":"PubSubnet<%= counter %>",
+					"ip_block":"10.20.<%= counter %>.0/24",
+					"availability-zone":"<%= az %>",
+					"route-table":"internet"
+				},
+<%
+		counter = counter + 1
+	end
+end
+["Hosting", "Databases", "GIS"].each do |service|
+	(1..3).each do |i|
+%>
+				{
+					"name":"<%= service %>PrvSubnet<%= i %>",
+					"ip_block":"10.20.<%= counter %>.0/24",
+					"availability-zone":"<%= azs[i-1] %>",
+					"route-table":"private"
+		<% counter = counter + 1 %>
+		<% if i < 3 or service != "GIS" %>
+				},
+		<% else %>
+				}
+		<% end %>
+	<% end %>
+<% end %>
+			]
+		}
+
+

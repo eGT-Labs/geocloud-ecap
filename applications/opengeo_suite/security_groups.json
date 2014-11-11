@@ -1,0 +1,90 @@
+		{
+			"name":"geoserver_lb",
+			
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name": "ogeosuite-vpc"
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>"
+<% end %>
+			},
+			"rules": [
+				{
+					"port":80,
+					"hosts": [
+						"0.0.0.0/0"
+					]
+				},
+				{
+					"port":443,
+					"hosts": [
+						"0.0.0.0/0"
+					]
+				}
+			]
+		},
+		{
+			"name":"geoserver",
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name": "ogeosuite-vpc"
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>"
+<% end %>
+			},
+			"rules": [
+				{
+					"port":8080,
+					"sgs": [
+						"geoserver_lb",
+						"geoserver"
+					]
+				},
+				{
+					"port":8443,
+					"sgs": [
+						"geoserver_lb",
+						"geoserver"
+					]
+				},
+				{
+					"port-range":"5701-5704",
+					"sgs": [
+						"geoserver"
+					]
+				}
+			]
+		},
+		{
+			"name":"postgres",
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name": "ogeosuite-vpc"
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>"
+<% end %>
+			},
+			"rules": [
+				{
+					"port":5432,
+					"sgs": [
+						"geoserver"
+					]
+				}
+			]
+		}

@@ -1,0 +1,14 @@
+<ldap>
+  <%= $ad_provider_id %>
+  <name>ad</name>
+  <className>org.geoserver.security.ldap.LDAPAuthenticationProvider</className>
+  <serverURL>ldap://<%= node.geoserver.ad.dc1_dns %>/<%= node.geoserver.ad.domain_cmpnt %></serverURL>
+  <groupSearchBase><%= node.geoserver.ad.grp_srch_base %></groupSearchBase>
+  <groupSearchFilter>member={0}</groupSearchFilter>
+  <useTLS>false</useTLS>
+  <bindBeforeGroupSearch>true</bindBeforeGroupSearch>
+  <adminGroup><%= node.geoserver.ad.admn_grp %></adminGroup>
+  <groupAdminGroup><%= node.geoserver.ad.admn_grp %></groupAdminGroup>
+  <userFilter>(|(userPrincipalName={0})(sAMAccountName={1}))</userFilter>
+  <userFormat>{0}@<%= node.geoserver.ad.netbios_name %></userFormat>
+</ldap>

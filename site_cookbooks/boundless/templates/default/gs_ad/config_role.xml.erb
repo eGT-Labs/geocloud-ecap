@@ -1,0 +1,18 @@
+<org.geoserver.security.ldap.LDAPRoleServiceConfig>
+  <%= $ad_role_id %>
+  <name>ad</name>
+  <className>org.geoserver.security.ldap.LDAPRoleService</className>
+  <serverURL>ldap://<%= node.geoserver.ad.dc1_dns %>/<%= node.geoserver.ad.domain_cmpnt %></serverURL>
+  <groupSearchBase><%= node.geoserver.ad.grp_srch_base %></groupSearchBase>
+  <groupSearchFilter>member={1},<%= node.geoserver.ad.domain_cmpnt %></groupSearchFilter>
+  <useTLS>false</useTLS>
+  <bindBeforeGroupSearch>true</bindBeforeGroupSearch>
+  <adminGroup><%= node.geoserver.ad.admin_role %></adminGroup>
+  <groupAdminGroup><%= node.geoserver.ad.admin_role %></groupAdminGroup>
+  <userFilter>sAMAccountName={0}</userFilter>
+  <user><%= $gs_ad_usr %></user>
+  <password><%= $gs_ad_pwd %></password>
+  <allGroupsSearchFilter>objectClass=group</allGroupsSearchFilter>
+</org.geoserver.security.ldap.LDAPRoleServiceConfig>
+
+

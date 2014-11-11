@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-2.3.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <group>
+    <name>geocloud</name>
+    <password>geoserver</password>
+  </group>
+
+  <!-- Make sure to change this in web.xml as well -->
+  <instanceName>gscluster</instanceName>
+
+  <network>
+    <port auto-increment="true">5701</port>
+    <join>
+      <tcp-ip enabled="true">
+<% node.deployment.servers.geoserver.each_pair do |name, data| %>
+        <interface><%= data['private_ip_address'] %></interface>
+<% end %>
+      </tcp-ip>
+    </join>
+  </network>
+
+</hazelcast>

@@ -1,0 +1,49 @@
+{ "CloudWatch_Logs":{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1406256819000",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:DeleteRetentionPolicy",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams",
+        "logs:DescribeMetricFilters",
+        "logs:GetLogEvents",
+        "logs:PutLogEvents",
+        "logs:PutMetricFilter",
+        "logs:PutRetentionPolicy",
+        "logs:TestMetricFilter"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+},
+{ "Snapshots_and_Tags":{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1385828567000",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateSnapshot",
+                "ec2:DeleteSnapshot",
+                "ec2:DescribeSnapshotAttribute",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribeTags",
+                "ec2:CreateTags",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeVolumeAttribute",
+                "ec2:DescribeVolumeStatus",
+                "ec2:ModifySnapshotAttribute"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+}
