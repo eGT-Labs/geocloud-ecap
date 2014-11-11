@@ -16,13 +16,10 @@
 	],
 	"vpcs": [
 <%= CAP::Config.include("dev_vpc.json") %>,
-<%= CAP::Config.include("prod_vpc.json") %>,
+<%= CAP::Config.include("prod_vpc.json") %>
 	],
 	"servers":[
 <%= CAP::Config.include("dev_bastion.json") %>,
 <%= CAP::Config.include("prod_bastion.json") %>
-	],
-	"firewall_rules":[
-<%= CAP::Config.include("security_groups.json") %>
 	]
 }

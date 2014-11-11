@@ -24,8 +24,11 @@ case node[:platform]
         end
 
 		node.normal.tomcat.jndi = true
-		node.normal.tomcat.jndi_user = $gs_postgres_usr_cfg
-		node.normal.tomcat.jndi_password = $gs_postgres_pwd_cfg
+
+		node.normal.tomcat.jndi_connections = [
+		{ "datasource_name" => "gscatalog", "driver" =>  "org.postgresql.Driver", "user" => $gs_postgres_usr_cfg, "pwd" => $gs_postgres_pwd_cfg, "max_active" => 40, "max_idle" => 10, "max_wait" => -1,
+		  "connection_string" => "postgresql://#{node.deployment.databases.postgis.endpoint}:#{node.deployment.databases.postgis.port}/#{node.ogeosuite.geoserver.db_name}" }
+		]
 
 		service "tomcat7" do
 			action :stop

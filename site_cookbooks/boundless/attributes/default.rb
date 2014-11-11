@@ -52,11 +52,3 @@ default['ogeosuite']['clstr']['cfg_files'] = [
     { "name" => "web.xml", "directory" => "#{node.ogeosuite.webapps}/geoserver/WEB-INF",  "owner" => "root" }
 ]
 
-node.normal.tomcat.jndi_datasource_name = "gscatalog"
-node.normal.tomcat.jndi_driver = "org.postgresql.Driver"
-node.normal.tomcat.jndi_connection_string = "postgresql://#{node.deployment.databases.postgis.endpoint}:#{node.deployment.databases.postgis.port}/#{node.ogeosuite.geoserver.db_name}"
-#node.normal.tomcat.jndi_user = $gs_postgres_usr_cfg
-#node.normal.tomcat.jndi_password = $gs_postgres_pwd_cfg
-node.normal.tomcat.jndi_max_active = 40
-node.normal.tomcat.jndi_max_idle = 10
-node.normal.tomcat.jndi_max_wait = -1
