@@ -4,7 +4,6 @@
     "json_class" : "Chef::Role",
     "run_list" : [
         "recipe[python]",
-        "recipe[femadata::common_apps]",
         "recipe[java]",
         "recipe[tomcat]",
         "recipe[nginx]",

@@ -4,6 +4,9 @@
 			"ssh_user":"root",
 			"size": "m3.medium",
 			"src-dst-check":false,
+			"iam-policies":[
+<%= CAP::Config.include("../default_iam_node_policies.json") %>
+			],
 			"static_ip": {
 				"assign_ip":true
 			},
@@ -34,7 +37,6 @@
 				}
 			],
 			"run_list":[
-				"recipe[utility::nat]",
-				"role[fema_common]"
+				"recipe[utility::nat]"
 			]
 		}

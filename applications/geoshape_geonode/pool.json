@@ -26,9 +26,6 @@
 					"rule_name":"geoshape_geonode"
 				}
 			],
-			"ingress_rules":[
-<%= CAP::Config.include("../nessus_ingress_rules.json") %>
-			],
 			"vpc":{
 <% if !$deploy_id then %>
 				"vpc_name":"geoshape-geonode-vpc",
@@ -96,7 +93,7 @@
 	<%= CAP::Config.include("../ubuntu-ami.json") %>,
 <% end %>
 					"iam-policies":[
-<%= CAP::Config.include("../fema_iam_node_policies.json") %>
+<%= CAP::Config.include("../default_iam_node_policies.json") %>
 					],
 <% if $environment == "dev" then %>
 					"size":"m3.large",
