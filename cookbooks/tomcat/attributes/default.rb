@@ -100,6 +100,7 @@ when 'debian', 'ubuntu'
   default['tomcat']['keytool'] = 'keytool'
   default['tomcat']['lib_dir'] = "#{node["tomcat"]["home"]}/lib"
   default['tomcat']['endorsed_dir'] = "#{node["tomcat"]["lib_dir"]}/endorsed"
+  default['tomcat']['app_base'] = "webapps"
 when 'smartos'
   default['tomcat']['user'] = 'tomcat'
   default['tomcat']['group'] = 'tomcat'
@@ -114,6 +115,7 @@ when 'smartos'
   default['tomcat']['keytool'] = '/opt/local/bin/keytool'
   default['tomcat']['lib_dir'] = "#{node["tomcat"]["home"]}/lib"
   default['tomcat']['endorsed_dir'] = "#{node["tomcat"]["home"]}/lib/endorsed"
+  default['tomcat']['app_base'] = "webapps"
 else
   default['tomcat']['user'] = "tomcat#{node["tomcat"]["base_version"]}"
   default['tomcat']['group'] = "tomcat#{node["tomcat"]["base_version"]}"
@@ -128,4 +130,5 @@ else
   default['tomcat']['keytool'] = 'keytool'
   default['tomcat']['lib_dir'] = "#{node["tomcat"]["home"]}/lib"
   default['tomcat']['endorsed_dir'] = "#{node["tomcat"]["lib_dir"]}/endorsed"
+  default['tomcat']['app_base'] = "webapps"
 end
