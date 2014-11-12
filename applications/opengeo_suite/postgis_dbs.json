@@ -14,7 +14,7 @@
 						"rule_name":"postgres"
 					}
 				],
-				"multi_az_on_create":true,
+				"multi_az_on_create":false,
 				"multi_az_on_deploy":false,
 <% if $public_db then %>
 				"publicly_accessible":true,
@@ -90,6 +90,7 @@
 						"subnet_name":"DatabasesPrvSubnet3"
 					}
 	<% end %>
+				]
 <% end %>
 			}
 

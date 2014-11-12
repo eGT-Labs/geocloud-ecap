@@ -39,13 +39,12 @@
 			"idle_timeout":1020,
 			"connection_draining_timeout":300,
 			"healthcheck": {
-				"target":"HTTPS:8080/geoserver/web/",
+				"target":"HTTP:8080/geoserver/web/",
 				"unhealthy-threshold":3,
 				"healthy-threshold":3
 			},
 			"lb_cookie_stickiness_policy": {
-				"name": "Geoserver",
-				"timeout":0
+				"name": "Geoserver"
 			},
 			"add_firewall_rules": [
 				{

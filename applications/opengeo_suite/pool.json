@@ -106,6 +106,10 @@
 					"storage":[
 						{
 							"device":"/dev/sda",
+							"size":20
+						},
+						{
+							"device":"/dev/xvdf",
 							"size":50
 						}
 					]

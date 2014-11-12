@@ -13,7 +13,6 @@ default['geoserver']['ad']['netbios_name'] = "egt"
 default['geoserver']['ad']['admin_role'] = "ROLE_EGTADMINS"
 default['geoserver']['ad']['enabled'] = false
 
-default['ogeosuite']['glusterfs_base_dir'] = "#{node.glusterfs.client.mount_path}/opengeo"
 default['ogeosuite']['data_dir'] = "/var/lib/opengeo"
 default['ogeosuite']['geoserver']['log_dir'] = "/var/log/geoserver/#{node.ec2.instance_id}"
 default['ogeosuite']['geoserver']['data_dir'] = "#{node.ogeosuite.data_dir}/geoserver"
@@ -52,3 +51,6 @@ default['ogeosuite']['clstr']['cfg_files'] = [
     { "name" => "web.xml", "directory" => "#{node.ogeosuite.webapps}/geoserver/WEB-INF",  "owner" => "root" }
 ]
 
+if node.ogeosuite.geoserver.init_cluster
+	default['ogeosuite']['glusterfs_base_dir'] = "#{node.glusterfs.client.mount_path}/opengeo"
+end

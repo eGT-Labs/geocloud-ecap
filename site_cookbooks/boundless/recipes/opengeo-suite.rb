@@ -27,7 +27,7 @@ case node[:platform]
 
     when "centos"
         
-		if !ogeosuite.geoserver.init_cluster
+		if !node.ogeosuite.geoserver.init_cluster
 			directory node.application_attributes.ogeosuite_dirs.dir
 
 			execute "mkfs -t ext4 #{node.application_attributes.ogeosuite_dirs.dev}" do
@@ -224,13 +224,17 @@ case node[:platform]
                 owner "tomcat"
                 group "tomcat"
                 mode 0644
+				retries 5
+				retry_delay 25
             end
         end
         
-        execute "python #{Chef::Config[:file_cache_path]}/mod_xml.py -d #{node.ogeosuite.geoserver.data_dir}" do
+        bash "Modify Geoserver config files" do
+			code "python #{Chef::Config[:file_cache_path]}/mod_xml.py -d #{node.ogeosuite.geoserver.data_dir}"
 			sensitive true
 		end
-        execute "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p #{$gs_admin_pwd}" do
+        bash "Modify Geoserver default contact details" do
+			code "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p '#{$gs_admin_pwd}'"
 			sensitive true
 		end
 
