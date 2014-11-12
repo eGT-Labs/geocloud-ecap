@@ -1,0 +1,118 @@
+		{
+			"name":"geonode",
+			"min-size":1,
+			"max-size":1,
+<% if $ubuntu then %>
+			"ssh_user": "ubuntu",
+<% end %>
+			"loadbalancers":[
+				{
+					"concurrent-load-balancer":"main"
+				}
+			],
+			"run_list":[
+				"role[geoshape_geonode]"
+			],
+<% if $rds then %>
+			"dependencies":[
+				{
+					"name":"postgis",
+					"type":"database"
+				}
+			],
+<% end %>
+			"add_firewall_rules": [
+				{
+					"rule_name":"geoshape_geonode"
+				}
+			],
+			"ingress_rules":[
+<%= CAP::Config.include("../nessus_ingress_rules.json") %>
+			],
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name":"geoshape-geonode-vpc",
+				"nat_host_name":"bastion",
+				"nat_ssh_user":"root",
+				"subnets":[
+					{
+						"subnet_name":"Public1"
+					},
+					{
+						"subnet_name":"Public2"
+					},
+					{
+						"subnet_name":"Public3"
+					}
+				]
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+				"nat_host_name":"dev-vpc-bastion",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+				"nat_host_name":"prod-vpc-bastion",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>",
+				"nat_ssh_user":"root",
+				"subnets":[
+					{
+						"subnet_name":"PubSubnet1"
+					},
+					{
+						"subnet_name":"PubSubnet2"
+					},
+					{
+						"subnet_name":"PubSubnet3"
+					}
+				]
+<% end %>
+			},
+		    "application_attributes":{
+		            "glusterfs_master_ip": "<%=$glusterfs_master_ip%>",
+<% if $existing_deployment == true then %>
+		            "existing_deployment":true
+<% else %>
+		            "existing_deployment":false
+<% end %>
+
+			},
+		    "vault_access" : [{
+		            "vault" : "geoshape_geonode",
+		            "item" : "geoshape_os"
+		        },
+		        {
+		            "vault" : "geoshape_geonode",
+		            "item" : "unison_os"
+		        }
+		    ],
+			"basis":{
+				"launch-config":{
+					"name":"geoshape_geonode",
+					"associate-public-ip":true,
+<% if $centos then %>
+	<%= CAP::Config.include("../centos-ami.json") %>,
+<% elsif $ubuntu then %>
+	<%= CAP::Config.include("../ubuntu-ami.json") %>,
+<% end %>
+					"iam-policies":[
+<%= CAP::Config.include("../fema_iam_node_policies.json") %>
+					],
+<% if $environment == "dev" then %>
+					"size":"m3.large",
+<% else %>
+					"size":"m3.xlarge",
+<% end %>
+					"storage":[
+						{
+<% if $centos then %>
+							"device":"/dev/sda",
+<% elsif $ubuntu then %>
+							"device":"/dev/sda1",
+<% end %>
+							"size":50
+						}
+					]
+				}
+			}
+		}

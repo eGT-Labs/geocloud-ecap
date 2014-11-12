@@ -1,0 +1,68 @@
+		{
+			"name":"main",
+			"vpc": {
+<% if !$deploy_id then %>
+				"vpc_name":"geoshape-geonode-vpc",
+				"subnets":[
+					{
+						"subnet_name":"Public1"
+					},
+					{
+						"subnet_name":"Public2"
+					},
+					{
+						"subnet_name":"Public3"
+					}
+				]
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>",
+				"subnets":[
+					{
+						"subnet_name":"PubSubnet1"
+					},
+					{
+						"subnet_name":"PubSubnet2"
+					},
+					{
+						"subnet_name":"PubSubnet3"
+					}
+				]
+
+<% end %>
+			},
+			"cross_zone_unstickiness":true,
+			"idle_timeout":1020,
+			"connection_draining_timeout":300,
+			"healthcheck": {
+				"target":"HTTP:8080/",
+				"unhealthy-threshold":3,
+				"healthy-threshold":3
+			},
+			"lb_cookie_stickiness_policy": {
+				"name": "Geoshape"
+			},
+			"add_firewall_rules": [
+				{
+					"rule_name":"geoshape_geonode_lb"
+				}
+			],
+			"listeners": [
+				{
+					"lb-port": 80,
+					"lb-protocol": "HTTP",
+					"instance-port": 80,
+					"instance-protocol": "HTTP"
+				},
+				{
+					"lb-port": 8080,
+					"lb-protocol": "HTTP",
+					"instance-port": 8080,
+					"instance-protocol": "HTTP"
+				}
+			]
+		}

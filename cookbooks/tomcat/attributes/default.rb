@@ -56,10 +56,10 @@ default['tomcat']['jndi'] = false
 default['tomcat']['jndi_connections'] = []
 
 default['tomcat']['ad']['integration'] = false
-default['tomcat']['ad']['dc1'] = "dc1.ad.femadata.com"
-default['tomcat']['ad']['dc2'] = "dc2.ad.femadata.com"
-default['tomcat']['ad']['domain_name'] = "ad.femadata.com"
-default['tomcat']['ad']['user_base'] = "OU=femadata,DC=ad,DC=femadata,DC=com"
+default['tomcat']['ad']['dc1'] = "dc1.egt.local"
+default['tomcat']['ad']['dc2'] = "dc2.egt.local"
+default['tomcat']['ad']['domain_name'] = "egt.local"
+default['tomcat']['ad']['user_base'] = "OU=egt,DC=egt,DC=local"
 default['tomcat']['ad']['role_base'] = node.tomcat.ad.user_base
 default['tomcat']['ad']['ldap_port'] = 389
 default['tomcat']['ad']['group'] = "Tomcat Admins"

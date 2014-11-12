@@ -1,0 +1,36 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-12.04
+    driver:
+      box: ubuntu-12.04
+      box_url: "http://files.vagrantup.com/precise64.box"
+      customize:
+        memory: 5000
+        cpus: 10
+
+suites:
+  - name: default
+    run_list:
+      - recipe[apt]
+      - recipe[python]
+      - recipe[git]
+      - recipe[rogue::gdal]
+      - recipe[rogue::postgresql]
+      - recipe[rogue]
+    attributes: {'tomcat':
+                   {'java_options':
+                      "-Djava.awt.headless=true -Xmx3g -XX:MaxPermSize=256m -XX:+UseConcMarkSweepGC"
+                   },
+                 'rogue':
+                   {
+                    'geoserver':{
+                      'url':'http://localhost:8080/geoserver/'
+                     }
+                 }
+    }

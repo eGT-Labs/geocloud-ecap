@@ -229,11 +229,11 @@ case node[:platform]
             end
         end
         
-        bash "Modify Geoserver config files" do
+		bash "Modify Geoserver config files" do
 			code "python #{Chef::Config[:file_cache_path]}/mod_xml.py -d #{node.ogeosuite.geoserver.data_dir}"
 			sensitive true
 		end
-        bash "Modify Geoserver default contact details" do
+		bash "Modify Geoserver default contact details" do
 			code "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p '#{$gs_admin_pwd}'"
 			sensitive true
 		end

@@ -1,0 +1,61 @@
+{
+<%
+
+$ubuntu = true if !$centos
+$centos = true if !$ubuntu
+if $ubuntu and $centos
+	raise "You must specify either ubuntu or centos"
+end
+
+$public_db=false if !$public_db
+
+%>
+
+	"appname": "geoshape",
+	"region": "us-east-1",
+	"admins": [
+		{
+			"name": "John Stange",
+			"email": "john.stange@eglobaltech.com",
+			"public-key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCwoIIkKy5+3Gd99sX+fHA/wLa6efZFlKaubPhfO99WGTGxgRcWUj4nHDCTBxgoyCAixE8VPJs93ted1jgEHfnNHClt5x+FqEobMp51ujiVrmF/q5b2vvVM0pgrdOgXjVmg8MuBG7OJZy3A4IWiViHT6dPufMmHclCJV/lVAveN5m5zdLVnQIEmfG+gk0ZlhDDrohfVgx6t7xltgMxIsi6iJdg4AOV3hxRjAlQTQ5FdNgccP6mDPKoS2uklUjsJIoHztGG8HJKb4pVfTAimw6UMcI8pnVbuHh3k+cMBxxk/GU4j3TZYQzNLfHGjy8R/hXqBV7K326iJkHkFP7o2H4Yp building@snicker-snack.local"
+		},
+		{
+			"name": "Chris Gotcu",
+			"email": "chris.gotcu@eglobaltech.com",
+			"public-key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAxnzCSLrA8M0PAt80xUJvTSmJrfpMR+C3w9hpX7ELh/S1b5dBij0LQGR2Hhm0I3xD0VQePt4uIdGcpPBTtfAW2TGckGtTqd3iwribTlSzx/RUJP5COSSjOv6nCbB4XYs0VK3TAWHDnotI/3HjIjsl7yAWWGSvOOvguw5d7VVQwJwGm7rX1Q0Rrev2//mWbBWGjL7Q+26NKzBDyrugT9Fw0okvDFUO7bouLJaPi8hYjV6BM3q//V+8Q0BIhCBxYB4cWGeCOmnANdnHhipcnw+xKk4EAK3fAe+jymA8tZqLrGtEYt2D0Q0RUAK3wAuQLZKkCy/pOd+XNUM/QI0V3+7pQQ=="
+		},
+		{
+			"name": "Ami Rahav",
+			"email": "amiram.rahav@eglobaltech.com",
+			"public-key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCQm+/wDBjeC5owwqZC6rorTxgigpUy3vA2CP3IdxCRnFcfMbDHgoAwMdRoLQN7ZWG+Fex1XXfm6d31zbUSq35Nt3EFEtCLznbowVZzej0U/XZ54Ra6iG6VErSyjq99OcojAGwP06v+94sVE4rT9WUcnw4MxgZxgHm+ExbW6SsKY/Zob+D9dNP0OSX0HFg7KY47nqx6Vqj6Kyl4GqDtizuVKhMfTFOu/BZcH+gBucnglmnv7sOcVWeGqZNWZi8LYaL+KVVAr52QLk+DcEuHUe+0DLCSP7r84w6IgPO2yxoiRFaDLcVi1+vfusDPnN4CnHE2w/3806ah9ALy01w4iLp7 arahav"
+		},
+		{
+			"name" : "Cheerag Patel",
+			"email" : "cheerag.patel@eglobaltech.com",
+			"public-key" : "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAmB+eRZf8EKT2w8BgYmaqkLurW8hAL9fj+L61Lib1g62/P8j7wSIdgQww7HDmC+DNyTU/dEkfImK2zDuoq4npw/KpWeA1Yu8DRosUEZw6+klmKpYiJq7oTnwLrofiCx0OuecXkiwt3GgYTIVEj+zFzBuQCCzKmjBWEqaSvTeM2O0fxhOlTkYq/Dgj4m4bSY4TwW0rhVtmAj2XhkUIT1JFIpjE3Neb4uaqbFZ7BXs5TeIH5+rXiJqGkIjUrt5gGt2RYLRBin4hPCt346RDnPNUvQnXhy0ZGUBRubLNAaRpphB7FZ0aACwKPCso5uF4JXj/JL/1hkzMfZJRcxAJB3EE/Q== cpatel"
+		}
+
+	],
+<% if !$deploy_id then %>
+    "vpcs": [
+<%= CAP::Config.include("vpc.json") %>
+    ],
+    "servers": [
+<%= CAP::Config.include("bastion.json") %>
+    ],
+<% end %>
+	"loadbalancers": [
+<%= CAP::Config.include("lb.json") %>
+	],
+<% if $rds then %>
+	"databases":[
+<%= CAP::Config.include("postgis_dbs.json") %>
+	],
+<% end %>
+	"server_pools":[
+<%= CAP::Config.include("pool.json") %>
+	],
+	"firewall_rules":[
+<%= CAP::Config.include("security_groups.json") %>
+	]
+}

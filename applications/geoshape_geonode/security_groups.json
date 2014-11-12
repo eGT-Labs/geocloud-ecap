@@ -1,0 +1,98 @@
+		{
+			"name":"geoshape_geonode_lb",
+			
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name": "geoshape-geonode-vpc"
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>"
+<% end %>
+			},
+			"rules": [
+				{
+					"port":80,
+					"hosts": [
+						"0.0.0.0/0"
+					]
+				},
+				{
+					"port":8080,
+					"hosts": [
+						"0.0.0.0/0"
+					]
+				}
+			]
+		},
+		{
+			"name":"geoshape_geonode",
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name": "geoshape-geonode-vpc"
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>"
+<% end %>
+			},
+			"rules": [
+				{
+					"port":8080,
+					"sgs": [
+						"geoshape_geonode_lb",
+						"geoshape_geonode"
+					]
+				},
+				{
+					"port":80,
+					"sgs": [
+						"geoshape_geonode_lb",
+						"geoshape_geonode"
+					]
+				},
+				{
+					"port":8080,
+					"hosts": [
+						"0.0.0.0/0"
+					]
+				},
+				{
+					"port":80,
+					"hosts": [
+						"0.0.0.0/0"
+					]
+				}
+			]
+		}
+<% if $rds then %>
+		,{
+			"name":"postgres",
+			"vpc":{
+<% if !$deploy_id then %>
+				"vpc_name": "geoshape-geonode-vpc"
+<% else %>
+	<% if $environment == "dev" then %>
+				"vpc_name":"dev-vpc",
+	<% elsif $environment == "prod" then %>
+				"vpc_name":"prod-vpc",
+	<% end %>
+				"deploy_id":"<%= $deploy_id %>"
+<% end %>
+			},
+			"rules": [
+				{
+					"port":5432,
+					"sgs": [
+						"geoshape_geonode"
+					]
+				}
+			]
+		}
+<% end %>

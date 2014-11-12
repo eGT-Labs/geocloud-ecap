@@ -1,0 +1,100 @@
+# These settings override the default settings
+
+# The geonode location.
+SITEURL = '<%= @settings['SITEURL'] %>'
+DEBUG = <%= node['rogue']['debug'] ? "True":"False" %>
+
+ALLOWED_HOSTS = (
+<% @settings['ALLOWED_HOSTS'].each do |host| %>
+'<%= host %>',
+<%end%>
+)
+
+PROXY_ALLOWED_HOSTS = (
+<% @settings['PROXY_ALLOWED_HOSTS'].each do |host| %>
+'<%= host %>',
+<%end%>
+)
+
+ADMINS = (
+<% @settings['ADMINS'].each do |name, email| %>
+('<%= name %>', '<%= email %>'),
+<%end%>
+)
+
+CLASSIFICATION_BANNER_ENABLED = <%= @settings['CLASSIFICATION_BANNER_ENABLED'] ? "True":"False" %>
+
+<% if @settings['CLASSIFICATION_TEXT'] -%>
+CLASSIFICATION_TEXT = '<%= @settings['CLASSIFICATION_TEXT'] %>'
+<% end -%>
+
+<% if @settings['CLASSIFICATION_TEXT_COLOR'] -%>
+CLASSIFICATION_TEXT_COLOR = '<%= @settings['CLASSIFICATION_TEXT_COLOR'] %>'
+<% end -%>
+
+<% if @settings['CLASSIFICATION_BACKGROUND_COLOR'] -%>
+CLASSIFICATION_BACKGROUND_COLOR = '<%= @settings['CLASSIFICATION_BACKGROUND_COLOR'] %>'
+<% end -%>
+
+SERVER_EMAIL = '<%= @settings['SERVER_EMAIL'] %>'
+DEFAULT_FROM_EMAIL = '<%= @settings['DEFAULT_FROM_EMAIL'] %>'
+REGISTRATION_OPEN = <%= @settings['REGISTRATION_OPEN'] ? "True":"False" %>
+
+<% if @settings['REGISTRATION_OPEN'] -%>
+AUTH_EXEMPT_URLS = ('/file-service/*', '/i18n/setlang/', '/account/signup')
+<% end -%>
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '<%= @database[:name] %>',
+        'USER': '<%= @database[:user] %>',
+        'PASSWORD': '<%= @database[:password] %>',
+        'HOST': '<%= @database[:host] %>',
+        'PORT': '<%= @database[:port] %>',
+    },
+
+    <% if @data_store[:name] -%>
+    '<%= @data_store[:name] %>': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': '<%= @data_store[:name] %>',
+        'USER': '<%= @data_store[:user] %>',
+        'PASSWORD': '<%= @data_store[:password] %>',
+        'HOST': '<%= @data_store[:host] %>',
+        'PORT': '<%= @data_store[:port] %>',
+    },
+    <% end -%>
+}
+
+# OGC (WMS/WFS/WCS) Server Settings
+OGC_SERVER = {
+    'default': {
+        'BACKEND': 'geonode.geoserver',
+        'LOCATION': '<%= @settings['OGC_SERVER']['LOCATION'] %>',
+        'PUBLIC_LOCATION': '<%= @settings['OGC_SERVER']['PUBLIC_LOCATION'] %>',
+        'USER': '<%= @settings['OGC_SERVER']['USER'] %>',
+        'PASSWORD': '<%= @settings['OGC_SERVER']['PASSWORD'] %>',
+        'MAPFISH_PRINT_ENABLED': True,
+        'PRINTNG_ENABLED': True,
+        'GEONODE_SECURITY_ENABLED': True,
+        'GEOGIT_ENABLED': True,
+        'WMST_ENABLED': False,
+        'DATASTORE': '<%= @data_store[:name] %>',
+        'GEOGIT_DATASTORE_DIR':'<%= @settings['OGC_SERVER']['GEOGIT_DATASTORE_DIR'] %>',
+        }
+    }
+
+#  Database datastore connection settings
+GEOGIT_DATASTORE_NAME = 'geogit-repo'
+
+
+UPLOADER = {
+    'BACKEND' : '<%= @settings['UPLOADER']['BACKEND'] or 'geonode.rest' %>',
+    'OPTIONS' : {
+        'TIME_ENABLED' : True,
+        'GEOGIT_ENABLED' : True,
+    }
+}
+
+STATIC_ROOT = '<%= @settings['STATIC_ROOT'] %>'
+MEDIA_ROOT = '<%= @settings['MEDIA_ROOT'] %>'
