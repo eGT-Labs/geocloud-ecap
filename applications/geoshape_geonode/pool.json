@@ -2,6 +2,7 @@
 			"name":"geonode",
 			"min-size":1,
 			"max-size":1,
+			"associate-public-ip":true,
 <% if $ubuntu then %>
 			"ssh_user": "ubuntu",
 <% end %>
@@ -65,15 +66,6 @@
 				]
 <% end %>
 			},
-		    "application_attributes":{
-		            "glusterfs_master_ip": "<%=$glusterfs_master_ip%>",
-<% if $existing_deployment == true then %>
-		            "existing_deployment":true
-<% else %>
-		            "existing_deployment":false
-<% end %>
-
-			},
 		    "vault_access" : [{
 		            "vault" : "geoshape_geonode",
 		            "item" : "geoshape_os"
@@ -86,7 +78,6 @@
 			"basis":{
 				"launch-config":{
 					"name":"geoshape_geonode",
-					"associate-public-ip":true,
 <% if $centos then %>
 	<%= CAP::Config.include("../centos-ami.json") %>,
 <% elsif $ubuntu then %>
