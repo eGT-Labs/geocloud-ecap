@@ -1,9 +1,9 @@
 include_recipe 'chef-vault'
-rogue_os_auth_info = chef_vault_item("rogue_geonode", "rogue_os")
-$rogue_os_pwd = rogue_os_auth_info['password']
-$rogue_os_usr = rogue_os_auth_info['username']
+geoshape_os_auth_info = chef_vault_item("geoshape_geonode", "geoshape_os")
+$rogue_os_pwd = geoshape_os_auth_info['password']
+$rogue_os_usr = geoshape_os_auth_info['username']
 
-unison_os_auth_info = chef_vault_item("rogue_geonode", "unison_os")
+unison_os_auth_info = chef_vault_item("geoshape_geonode", "unison_os")
 $unison_os_pwd = unison_os_auth_info['password']
 $unison_os_usr = unison_os_auth_info['username']
 
