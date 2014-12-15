@@ -29,17 +29,21 @@
 			"subnets": [
 <%
 azs = CAP::Deploy.listAZs
+puts "azs starts as #{azs}"
+azs.each do |raz|
+  puts "==looking at #{raz}=="
+  if raz==$azskip then
+        puts "==Skipping #{raz} =="
+        azs.delete(raz)
+  end
+
+  puts "azs is now #{azs} "
+end
+
 counter=1
 azs.each do |az|
 
-   # allow for az skip for old accounts with azs that won't support vpc
-   if az == $azskip then
-            puts "===============Skipping #{az} ============================"
-            az=nil
-            counter=counter-1
-    end
-
-	if !az.nil?
+        if !az.nil?
 %>
 				{
 					"name":"Public<%= counter %>",
