@@ -9,8 +9,6 @@ node.default['postgresql']['pg_hba'] = [
 # Add the postgres dev server to the installation
 #node.default['postgresql']['server']['packages'] = ["postgresql-#{node['postgresql']['version']} postgresql-server-dev-#{node['postgresql']['version']}"]
 
-node.normal.postgresql.enable_pgdg_apt = true
-node.normal.postgresql.version = "9.3"
 # node.normal.postgresql.client.packages = ["postgresql-client-#{node.postgresql.version}"]
 # node.normal.postgresql.server.packages = ["postgresql-#{node.postgresql.version}"]
 # node.normal.postgresql.contrib.packages = ["postgresql-contrib-#{node.postgresql.version}"]

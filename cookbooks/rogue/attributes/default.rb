@@ -1,6 +1,9 @@
 default['rogue']['debug'] = true
 default['rogue']['version'] = '1.x'
 
+node.normal.postgresql.enable_pgdg_apt = true
+node.normal.postgresql.version = "9.3"
+
 default['rogue']['postgresql']['user'] = 'postgres'
 default['rogue']['postgresql']['password'] = node.fetch('postgresql',{}).fetch('password', {}).fetch('postgres', 'rogue')
 default['rogue']['postgresql']['port'] = node.fetch('postgresql',{}).fetch('config', {}).fetch('port', '5432')
