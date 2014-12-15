@@ -31,6 +31,14 @@
 azs = CAP::Deploy.listAZs
 counter=1
 azs.each do |az|
+
+   # allow for az skip for old accounts with azs that won't support vpc
+   if az == $azskip then
+            puts "===============Skipping #{az} ============================"
+            az=nil
+            counter=counter-1
+    end
+
 	if !az.nil?
 %>
 				{
