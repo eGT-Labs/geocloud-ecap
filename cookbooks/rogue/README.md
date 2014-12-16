@@ -2,6 +2,8 @@ ROGUE Cookbook
 ===============
 A stand-alone chef cookbook for the ROGUE-JCTD project.  This cookbook can be used to install and configure all of the ROGUE components.
 
+NOTE: This version enhanced for use with eCAP automated deployment.  See applications/README.md for details
+
 Requirements
 ------------
 Chef community cookbook requirements.
