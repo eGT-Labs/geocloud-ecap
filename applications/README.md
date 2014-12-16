@@ -1,10 +1,21 @@
-ROGUE Cookbook
-===============
-A stand-alone chef cookbook for the ROGUE-JCTD project.  This cookbook can be used to install and configure all of the ROGUE components.
+This version has been modified for use in the eCAP automated provisioning system.  See "eCAP Modifications in this file for differences"
 
-NOTE: This version enhanced for use with eCAP automated deployment.  See applications/README.md for details
+eCAP Modifications
+------------------
+###Requirements
+eCAP server at least 
 
-Requirements
+#### Planned Enhancements
+Add CentOS.  Currently the eCAP version runs on ubuntu 
+Add Ubuntu hardening
+Complete production baskets of kittens (BOKs).  Currently only dev works
+Clean up artifacts.  Many artifacts in applications are hints for future development and do not yet function
+Deploy servers in private subnet behind elastic load balancer -- currently deploying in public subnet and ELB is present but not yet used
+
+#### postgres overrides for eCAP
+The eCAP provisioning tool already contains the postgres cookbook; the necessary attributes for version 9.3 have been overridden in rogue's attributes file
+
+equirements
 ------------
 Chef community cookbook requirements.
 
@@ -75,6 +86,7 @@ Attributes
 - `node['rogue']['ssh']['public_key_remote_file']` = The location where to store the public key on the guest machine.
 - `node['rogue']['iface']` = The network interface used to obtain the ip.  Defaults to eth1 when the vagrant attribute is true, eth0 all other times.
 - `node['unison']['user']` = A hash with the username and password for the `unison` user.
+
 
 Usage
 -----
