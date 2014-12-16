@@ -1,8 +1,4 @@
-This repository contains a range of Boundless open source geospatial services and the GeoShape/Rogue deployment of Geonode.  All have  been modified for use in the eCAP automated provisioning system.  
-
-Requirements
-==============
-- eCAP server at least tag r0.1.2 or newer
+This is the eCAP Deploymenet Descriptor directory
 
 Common Capabilities and BOK (Baskets of Kittens/Deployment Descriptors)
 =======================================================================
@@ -15,16 +11,6 @@ Common Capabilities and BOK (Baskets of Kittens/Deployment Descriptors)
 
 Operational Deployments
 ==================
-This repository is under active development and contains deployments that may not be currently operational.  See README.md in individual deployments for details of operational deployments.
-
-geoshape_geonode Directory
---------------------------
-geoshape_geonode contains the operational descriptors for GeoShape deployment.  See README.md in that directory for status, limitations and usage
-
-VPC Directory
--------------
-The vpc directory defines BOKs to create VPC's for deployment models that target and reuse existing VPCs
-
-Other Directories
-------------------
-Stubs, not operational at this time
+This repository is under active development and contains deployments that may not be currently operational.  See README.md in individual deployments for details of operational deployments.  Currently operational deployments are:
+- VPC - utility for creating standalone VPCs to hold other deployments
+- geoshape_geonode - working GeoShape deployment 
