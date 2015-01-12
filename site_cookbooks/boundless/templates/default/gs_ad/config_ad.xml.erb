@@ -2,6 +2,9 @@
   <roleServiceName>default</roleServiceName>
   <authProviderNames>
     <string>default</string>
+<% if node.geoserver.ad.enabled -%>
+    <string>ad</string>
+<% end -%>
   </authProviderNames>
   <configPasswordEncrypterName>strongPbePasswordEncoder</configPasswordEncrypterName>
   <encryptingUrlParams>false</encryptingUrlParams>

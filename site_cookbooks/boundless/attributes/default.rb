@@ -14,6 +14,7 @@ default['geoserver']['ad']['admin_role'] = "ROLE_EGTADMINS"
 default['geoserver']['ad']['enabled'] = false
 
 default['ogeosuite']['data_dir'] = "/var/lib/opengeo"
+default['ogeosuite']['webapps'] = "/usr/share/opengeo"
 default['ogeosuite']['geoserver']['log_dir'] = "/var/log/geoserver/#{node.ec2.instance_id}"
 default['ogeosuite']['geoserver']['data_dir'] = "#{node.ogeosuite.data_dir}/geoserver"
 default['ogeosuite']['geoserver']['db_name'] = "geoserver"
@@ -28,7 +29,6 @@ default['ogeosuite']['geoserver']['pwd_files'] = [
     #{ "fname" => "passwd", "dir" => "security/masterpw/default" },
 ]
 
-default['ogeosuite']['webapps'] = node.tomcat.app_base
 default['ogeosuite']['supporting_packages'] = [
     { "name" => "msttcorefonts", "rpm" => "msttcorefonts-2.5-1.noarch.rpm" },
     { "name" => "libjpeg-turbo-official", "rpm" => "libjpeg-turbo-official-1.3.90.x86_64.rpm" }

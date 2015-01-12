@@ -6,9 +6,10 @@
         "recipe[python]",
         "recipe[java]",
         "recipe[tomcat]",
-        "recipe[boundless::opengeo-suite]"
+        "recipe[boundless::opengeo-suite]",
+        "recipe[cap-tools::ebs_rolling_snapshots]"
     ],
-    "description" : "Boudless Opengeo Suite",
+    "description" : "Boundless Opengeo Suite",
     "chef_type" : "role",
     "override_attributes" : {
         "java" : {

@@ -1,5 +1,5 @@
 <org.geoserver.security.ldap.LDAPRoleServiceConfig>
-  <%= $ad_role_id %>
+<%=$ad_role_id%>
   <name>ad</name>
   <className>org.geoserver.security.ldap.LDAPRoleService</className>
   <serverURL>ldap://<%= node.geoserver.ad.dc1_dns %>/<%= node.geoserver.ad.domain_cmpnt %></serverURL>

@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['tomcat']['package']['full_version'] = '7.0.53-1'
+default['tomcat']['package']['full_version'] = '7.0.57-1'
 default['tomcat']['package']['s3_bucket_path'] = 'femadata-sandbox-public/tomcat7/rpm'
 default['tomcat']['base_version'] = 6
 default['tomcat']['port'] = 8080

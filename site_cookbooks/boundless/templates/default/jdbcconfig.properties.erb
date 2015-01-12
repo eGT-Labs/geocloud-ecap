@@ -2,7 +2,7 @@ enabled=true
 initScript=${GEOSERVER_DATA_DIR}/jdbcconfig/scripts/initdb.postgres.sql
 initdb=false
 import=false
-jndiName=java\:/comp/env/jdbc/<%= node.tomcat.jndi_datasource_name %>
+jndiName=java\:/comp/env/jdbc/<%= node.tomcat.jndi_connections[0]["datasource_name"] %>
 pool.minIdle=4
 pool.maxActive=50
 pool.poolPreparedStatements=true

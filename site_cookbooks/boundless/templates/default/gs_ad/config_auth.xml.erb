@@ -1,5 +1,5 @@
 <ldap>
-  <%= $ad_provider_id %>
+<%=$ad_provider_id%>
   <name>ad</name>
   <className>org.geoserver.security.ldap.LDAPAuthenticationProvider</className>
   <serverURL>ldap://<%= node.geoserver.ad.dc1_dns %>/<%= node.geoserver.ad.domain_cmpnt %></serverURL>

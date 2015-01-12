@@ -1,0 +1,45 @@
+<global>
+  <settings>
+    <id>SettingsInfoImpl--4143d32e:14833552388:-8000</id>
+    <contact>
+      <address>500 C St SW</address>
+      <addressCity>Washington DC</addressCity>
+      <addressCountry>USA</addressCountry>
+      <addressPostalCode>20472</addressPostalCode>
+      <addressState>DC</addressState>
+      <contactEmail>support@femadata.com</contactEmail>
+      <contactOrganization>FEMA</contactOrganization>
+      <contactPerson>FEMAData Support</contactPerson>
+      <onlineResource>http://boundlessgeo.com/about/contact-us/customer-support/</onlineResource>
+    </contact>
+    <charset>UTF-8</charset>
+    <numDecimals>8</numDecimals>
+    <onlineResource>http://boundlessgeo.com/solutions/solutions-software/geoserver/</onlineResource>
+    <verbose>false</verbose>
+    <verboseExceptions>false</verboseExceptions>
+    <localWorkspaceIncludesPrefix>false</localWorkspaceIncludesPrefix>
+  </settings>
+  <jai>
+    <allowInterpolation>false</allowInterpolation>
+    <recycling>false</recycling>
+    <tilePriority>5</tilePriority>
+    <tileThreads>7</tileThreads>
+    <memoryCapacity>0.5</memoryCapacity>
+    <memoryThreshold>0.75</memoryThreshold>
+    <imageIOCache>false</imageIOCache>
+    <pngAcceleration>true</pngAcceleration>
+    <jpegAcceleration>true</jpegAcceleration>
+    <allowNativeMosaic>false</allowNativeMosaic>
+  </jai>
+  <coverageAccess>
+    <maxPoolSize>5</maxPoolSize>
+    <corePoolSize>5</corePoolSize>
+    <keepAliveTime>30000</keepAliveTime>
+    <queueType>UNBOUNDED</queueType>
+    <imageIOCacheThreshold>10240</imageIOCacheThreshold>
+  </coverageAccess>
+  <updateSequence>70</updateSequence>
+  <featureTypeCacheSize>0</featureTypeCacheSize>
+  <globalServices>true</globalServices>
+  <xmlPostRequestLogBufferSize>1024</xmlPostRequestLogBufferSize>
+</global>
