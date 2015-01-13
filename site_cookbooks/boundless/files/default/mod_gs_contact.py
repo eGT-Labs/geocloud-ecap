@@ -23,16 +23,16 @@ for attempt in range(8):
 if resp.status_code == 200:
     contact_info = resp.json()
     print "Got Geoserver Contact Info"
-    contact_info['contact']['contactEmail'] = 'support@femadata.com'
-    contact_info['contact']['contactOrganization'] = 'FEMA'
-    contact_info['contact']['contactPerson'] = 'FEMAData Support'
+    contact_info['contact']['contactEmail'] = 'support@eglobaltech.com'
+    contact_info['contact']['contactOrganization'] = 'eGT'
+    contact_info['contact']['contactPerson'] = 'eGT Support'
     contact_info['contact']['addressCountry'] = 'USA'
     contact_info['contact']['contactPosition'] = 'Customer Support'
-    contact_info['contact']['addressCity'] = 'Washington, DC'
-    contact_info['contact']['address'] = 20472
-    contact_info['contact']['addressState'] = 'Washington, DC'
-    contact_info['contact']['addressPostalCode'] = '500 C St SW'
-    contact_info['contact']['onlineResource'] = 'http://gis.femadata.com'
+    contact_info['contact']['addressCity'] = 'Arlington'
+    contact_info['contact']['address'] = 22203
+    contact_info['contact']['addressState'] = 'VA'
+    contact_info['contact']['addressPostalCode'] = '3865 Wilson Blvd, Suite 500'
+    contact_info['contact']['onlineResource'] = 'www.eglobaltech.com'    
     contact_info = json.dumps(contact_info)
 
     headers = {'content-type': 'application/json'}

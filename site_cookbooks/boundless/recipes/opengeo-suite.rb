@@ -273,7 +273,7 @@ case node[:platform]
 		end
 
 		execute "python #{Chef::Config[:file_cache_path]}/mod_xml.py -d #{node.ogeosuite.geoserver.data_dir}"
-		execute "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p #{$gs_admin_pwd}"
+		execute "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p \"#{$gs_admin_pwd}\""
 
 	else
 		Chef::Log.info("Unsupported platform #{node[:platform]}")
