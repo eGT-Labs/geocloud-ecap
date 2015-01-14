@@ -46,29 +46,29 @@ azs.each do |az|
 
         if !az.nil?
 %>
-                                {
-                                        "name":"PubSubnet<%= counter %>",
-                                        "ip_block":"10.20.<%= counter %>.0/24",
-                                        "availability-zone":"<%= az %>",
-                                        "route-table":"internet"
-                                },
+				{
+					"name":"PubSubnet<%= counter %>",
+					"ip_block":"10.20.<%= counter %>.0/24",
+					"availability-zone":"<%= az %>",
+					"route-table":"internet"
+				},
 <%
                 counter = counter + 1
         end
 end
-(1..3).each do |i|
+(1..azs.size).each do |i|
 %>
-                                {
-                                        "name":"PrvSubnet<%= i %>",
-                                        "ip_block":"10.20.<%= counter %>.0/24",
-                                        "availability-zone":"<%= azs[i] %>",
-                                        "route-table":"private"
-                <% counter = counter + 1 %>
-                <% if i < 3 %>
-                                },
-                <% else %>
-                                }
-                <% end %>
+				{
+					"name":"PrvSubnet<%= i %>",
+					"ip_block":"10.20.<%= counter %>.0/24",
+					"availability-zone":"<%= azs[i-1] %>",
+					"route-table":"private"
+		<% counter = counter + 1 %>
+		<% if i < azs.size %>
+				},
+		<% else %>
+				}
+		<% end %>
 <% end %>
-                        ]
-                }
+			]
+		}

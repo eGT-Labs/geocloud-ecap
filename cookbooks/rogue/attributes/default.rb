@@ -5,12 +5,16 @@ node.normal.postgresql.enable_pgdg_apt = true
 
 # Override pgsql version and dependent attributes, per https://www.chef.io/blog/2013/12/03/doing-wrapper-cookbooks-right/
 # These will need to be made deployment-specific to handle CentOS later on. Note directory from arahav
-default['postgresql']['version'] = '9.3'
-default['postgresql']['client']['packages'] = ["postgresql-client-#{node['postgresql']['version']}","libpq-dev"]
-default['postgresql']['server']['packages'] = ["postgresql-#{node['postgresql']['version']}"]
-default['postgresql']['contrib']['packages'] = ["postgresql-contrib-#{node['postgresql']['version']}"]
+default['postgresql']['version'] = '9.4'
+default['postgresql']['client']['packages'] = ["postgresql-client-#{node.postgresql.version}", "libpq-dev"]
+default['postgresql']['server']['packages'] = ["postgresql-#{node.postgresql.version}"]
+default['postgresql']['contrib']['packages'] = ["postgresql-contrib-#{node.postgresql.version}"]
 default['postgresql']['dir'] = "/var/lib/postgresql/#{node.postgresql.version}/main"
-default['postgresql']['server']['servicename'] = "postgresql-#{node['postgresql']['version']}"
+default['postgresql']['server']['servicename'] = "postgresql-#{node.postgresql.version}"
+
+default['postgis']['version'] = '2.1'
+default['postgis']['template_name'] = 'template_postgis'
+default['postgis']['locale'] = 'en_US.utf8'
 
 default['rogue']['postgresql']['user'] = 'postgres'
 default['rogue']['postgresql']['password'] = node.fetch('postgresql',{}).fetch('password', {}).fetch('postgres', 'rogue')

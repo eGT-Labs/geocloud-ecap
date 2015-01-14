@@ -43,7 +43,7 @@ azs.each do |az|
 		counter = counter + 1
 	end
 end
-(1..3).each do |i|
+(1..azs.size).each do |i|
 %>
 				{
 					"name":"Private<%= i %>",
@@ -51,7 +51,7 @@ end
 					"availability-zone":"<%= azs[i-1] %>",
 					"route-table":"private"
 		<% counter = counter + 1 %>
-		<% if i < 3 %>
+		<% if i < azs.size %>
 				},
 		<% else %>
 				}

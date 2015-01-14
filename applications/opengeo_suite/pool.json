@@ -56,13 +56,13 @@
 				"nat_ssh_user":"root",
 				"subnets":[
 					{
-						"subnet_name":"GISPrvSubnet1"
+						"subnet_name":"PrvSubnet1"
 					},
 					{
-						"subnet_name":"GISPrvSubnet2"
+						"subnet_name":"PrvSubnet2"
 					},
 					{
-						"subnet_name":"GISPrvSubnet3"
+						"subnet_name":"PrvSubnet3"
 					}
 				]
 <% end %>
@@ -105,7 +105,7 @@
 <% end %>
 					"storage":[
 						{
-							"device":"/dev/sda",
+							"device":"/dev/sda1",
 							"size":20
 						},
 						{
