@@ -39,18 +39,18 @@ default['rogue']['geoserver']['jai_io']['url'] = "http://download.java.net/media
 default['rogue']['geoserver']['url']= "http://#{node.rogue.rogue_geonode.public_address}#{node['rogue']['geoserver']['base_url']}/"
 default['rogue']['geoserver']['war'] = "http://jenkins.rogue.lmnsolutions.com/job/geoserver/lastSuccessfulBuild/artifact/geoserver_ext/target/geoserver.war"
 
-default['rogue']['geoserver_data']['url'] = 'https://github.com/ROGUE-JCTD/geoserver_data.git'
+default['rogue']['geoserver_data']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/geoserver_data.git'
 default['rogue']['geoserver_data']['branch'] = 'master'
 
 default['rogue']['geonode']['location'] = '/var/lib/geonode/'
 default['rogue']['interpreter'] = ::File.join(node['rogue']['geonode']['location'], 'bin/python')
 default['rogue']['django_maploom']['auto_upgrade'] = true
-default['rogue']['django_maploom']['url'] = "git+https://github.com/ROGUE-JCTD/django-maploom.git#egg=django-maploom"
+default['rogue']['django_maploom']['url'] = "git+https://github.com/DistributedOpenUnifiedGovernmentNetwork/django-maploom.git#egg=django-maploom"
 default['rogue']['geonode']['location'] = '/var/lib/geonode/'
 default['rogue']['rogue_geonode']['branch'] = 'master'
 default['rogue']['rogue_geonode']['python_packages'] = ["uwsgi", "psycopg2"]
 default['rogue']['rogue_geonode']['location'] = File.join(node['rogue']['geonode']['location'], 'rogue_geonode')
-default['rogue']['rogue_geonode']['url'] = 'https://github.com/ROGUE-JCTD/rogue_geonode.git'
+default['rogue']['rogue_geonode']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/rogue_geonode.git'
 default['rogue']['rogue_geonode']['fixtures'] = ['sample_admin.json',]
 default['rogue']['rogue_geonode']['settings']['ALLOWED_HOSTS'] = [node['ipaddress'], 'localhost', node.rogue.rogue_geonode.public_address]
 default['rogue']['rogue_geonode']['settings']['PROXY_ALLOWED_HOSTS'] = ['*', '.lmnsolutions.com', '.openstreetmap.org']
@@ -78,7 +78,7 @@ default['rogue']['geogit']['build_from_source'] = false
 default['rogue']['geogit']['branch'] = 'SprintRelease'
 
 if node['rogue']['geogit']['build_from_source']
-  default['rogue']['geogit']['url'] = 'https://github.com/ROGUE-JCTD/GeoGit.git'
+  default['rogue']['geogit']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/GeoGit.git'
 else
   default['rogue']['geogit']['url'] = 'http://jenkins.rogue.lmnsolutions.com/job/geogit/lastSuccessfulBuild/artifact/src/cli-app/target/geogit-cli-app.zip'
 end
@@ -92,7 +92,7 @@ default['rogue']['geogit']['location'] = '/var/lib/geogit'
 
 default['rogue']['geoeserver-exts']['branch'] = '2.4.x'
 default['rogue']['geoeserver-exts']['location'] = '/var/lib/geoserver-exts'
-default['rogue']['geoeserver-exts']['url'] = 'https://github.com/ROGUE-JCTD/geoserver-exts.git'
+default['rogue']['geoeserver-exts']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/geoserver-exts.git'
 default['rogue']['tomcat']['log_dir'] = "${catalina.base}/logs"
 
 default['rogue']['rogue_geonode']['settings']['CLASSIFICATION_BANNER_ENABLED'] = false
@@ -100,12 +100,12 @@ default['rogue']['rogue_geonode']['settings']['CLASSIFICATION_TEXT_COLOR'] = nil
 default['rogue']['rogue_geonode']['settings']['CLASSIFICATION_BACKGROUND_COLOR'] = nil
 default['rogue']['rogue_geonode']['settings']['CLASSIFICATION_TEXT'] = nil
 
-default['rogue']['stig']['url'] = 'https://github.com/ROGUE-JCTD/stig.git'
+default['rogue']['stig']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/stig.git'
 default['rogue']['stig']['branch'] = 'master'
 
 default['rogue']['rogue-scripts']['branch'] = 'master'
 default['rogue']['rogue-scripts']['location'] = '/opt/rogue-scripts'
-default['rogue']['rogue-scripts']['url'] = 'https://github.com/ROGUE-JCTD/rogue-scripts.git'
+default['rogue']['rogue-scripts']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/rogue-scripts.git'
 
 if node['rogue']['version'] == '1.x'
   default['rogue']['rogue_geonode']['branch'] = '1.x'
