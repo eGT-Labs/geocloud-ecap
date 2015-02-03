@@ -10,7 +10,7 @@ Chef community cookbook requirements are met through CAP repository and this rep
 ####Credentials
 GeoShape uses Chef Vault for credentials.  The eCAP server must have a vault called geoshape_geonode present before deployment with two items ... geoshape_os and unison_os that hold account credentials.  Create them on a one-time basis like this:
 
-`knife vault create geoshape_geonode geoshape_os '{"username": "unison", "password": "somepass"}'`
+`knife vault create geoshape_geonode geoshape_os '{"username": "rogue", "password": "somepass"}'`
 
 `knife vault create geoshape_geonode unison_os '{"username": "unison", "password": "somepass"}'`
 	
