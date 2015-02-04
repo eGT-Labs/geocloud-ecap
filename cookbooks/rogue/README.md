@@ -1,6 +1,6 @@
 ROGUE Cookbook
 ===============
-A stand-alone chef cookbook for the ROGUE-JCTD project.  This cookbook can be used to install and configure all of the ROGUE components.
+A stand-alone chef cookbook for the DOUGN project, forked from ROGUE-JCTD project.  This cookbook can be used to install and configure all of the ROGUE components.
 
 NOTE: This version enhanced for use with eCAP automated deployment.  See applications/README.md for details
 
@@ -166,7 +166,7 @@ The unison recipe will:
 #### rogue::stig
 The stig recipe will:
 
-- Do a git pull from the ROGUE-JCTD stig repository.
+- Do a git pull from the DOUGN stig repository.
 
 How To
 ------

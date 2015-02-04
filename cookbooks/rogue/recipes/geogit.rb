@@ -51,6 +51,7 @@ node['rogue']['geogit']['global_configuration'].each do |section, values|
       bash "geogit global config #{section}.#{key} #{value}" do
         code "#{File.join(geogit_home, '/bin/geogit')} config --global #{section}.#{key} #{value}"
         user node['tomcat']['user']
+	action :nothing
       end
     end
 end
