@@ -1,5 +1,5 @@
 default['rogue']['debug'] = true
-default['rogue']['version'] = '1.x'
+default['rogue']['version'] = 'v0.1a'
 
 node.normal.postgresql.enable_pgdg_apt = true
 
