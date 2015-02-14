@@ -53,6 +53,8 @@ case node[:platform]
 							db_exists=`eval $query`
 							if [ $db_exists -eq 0 ] ; then
 								PGPASSWORD=#{$gs_postgres_pwd_cfg} psql -h #{node.deployment.databases.postgis.endpoint} -U #{$gs_postgres_usr_cfg} -d postgres -c "CREATE DATABASE #{db_name} OWNER #{$gs_postgres_usr_cfg};"
+								PGPASSWORD=#{$gs_postgres_pwd_cfg} psql -h #{node.deployment.databases.postgis.endpoint} -U #{$gs_postgres_usr_cfg} -d #{db_name} -c "CREATE EXTENSION postgis; CREATE EXTENSION fuzzystrmatch; CREATE EXTENSION postgis_tiger_geocoder; CREATE EXTENSION postgis_topology; ALTER SCHEMA tiger OWNER TO rds_superuser; ALTER SCHEMA topology OWNER TO rds_superuser;"
+								PGPASSWORD=#{$gs_postgres_pwd_cfg} psql -h #{node.deployment.databases.postgis.endpoint} -U #{$gs_postgres_usr_cfg} -d #{db_name} -c "CREATE FUNCTION exec(text) returns text language plpgsql volatile AS \\$f\\$ BEGIN EXECUTE \\$1; RETURN \\$1; END; \\$f\\$; SELECT exec('ALTER TABLE ' || quote_ident(s.nspname) || '.' || quote_ident(s.relname) || ' OWNER TO rds_superuser') FROM (SELECT nspname, relname FROM pg_class c JOIN pg_namespace n ON (c.relnamespace = n.oid) WHERE nspname in ('tiger','topology') AND relkind IN ('r','S','v') ORDER BY relkind = 'S') s;"
 							fi
 						EOH
 						sensitive true

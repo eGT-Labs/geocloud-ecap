@@ -1,6 +1,6 @@
 		{
 			"name": "dev-vpc-bastion",
-			"ami-id": "ami-c2a818aa",
+<%= CAP::Config.include("../centos-ami.json") %>,
 			"ssh_user":"root",
 			"size": "t2.micro",
 			"iam-policies":[

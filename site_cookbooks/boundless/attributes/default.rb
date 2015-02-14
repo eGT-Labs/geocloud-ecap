@@ -17,6 +17,7 @@ default['ogeosuite']['data_dir'] = "/var/lib/opengeo"
 default['ogeosuite']['webapps'] = "/usr/share/opengeo"
 default['ogeosuite']['geoserver']['log_dir'] = "/var/log/geoserver/#{node.ec2.instance_id}"
 default['ogeosuite']['geoserver']['data_dir'] = "#{node.ogeosuite.data_dir}/geoserver"
+default['ogeosuite']['geoserver']['gwc_dir'] = "#{node.ogeosuite.data_dir}/geowebcache"
 default['ogeosuite']['geoserver']['db_name'] = "geoserver"
 default['geoserver']['db_name'] = "geoserver_data"
 default['ogeosuite']['geoserver']['set_pwd'] = true

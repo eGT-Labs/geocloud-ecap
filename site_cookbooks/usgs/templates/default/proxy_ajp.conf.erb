@@ -1,0 +1,12 @@
+ProxyRequests Off
+
+<Proxy *>
+        Order allow,deny
+        Allow from all
+</Proxy>
+
+<% ['geoserver', 'dashboard', 'geoexplorer', 'opengeo-docs'].each do |uri| %>
+ProxyPass /<%= "#{uri}" %> ajp://localhost:<%= "#{node.tomcat.ajp_port}" %>/<%= "#{uri}" %>
+ProxyPassReverse /<%= "#{uri}" %> ajp://localhost:<%= "#{node.tomcat.ajp_port}" %>/<%= "#{uri}" %>		
+<% end %>
+

@@ -227,6 +227,15 @@ case node[:platform]
 			notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
 		end
 
+                template "#{node.ogeosuite.webapps}/geoserver/WEB-INF/web.xml" do
+                        source "nocluster_web.xml.erb"
+                        owner "tomcat"
+                        group "tomcat"
+                        mode 0644
+                        notifies :restart, 'service[tomcat]', :immediately if File.exists?("/etc/init.d/tomcat")
+                        notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
+                end
+
 		%w{wcs.xml wfs.xml}.each do |file|
 			cookbook_file "#{node.ogeosuite.geoserver.data_dir}/#{file}" do
 				source file
