@@ -40,14 +40,14 @@ default['rogue']['geoserver']['url']= "http://#{node.rogue.rogue_geonode.public_
 default['rogue']['geoserver']['war'] = "http://jenkins.rogue.lmnsolutions.com/job/geoserver/lastSuccessfulBuild/artifact/geoserver_ext/target/geoserver.war"
 
 default['rogue']['geoserver_data']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/geoserver_data.git'
-default['rogue']['geoserver_data']['branch'] = 'master'
+default['rogue']['geoserver_data']['branch'] = "#{node.rogue.version}"
 
 default['rogue']['geonode']['location'] = '/var/lib/geonode/'
 default['rogue']['interpreter'] = ::File.join(node['rogue']['geonode']['location'], 'bin/python')
 default['rogue']['django_maploom']['auto_upgrade'] = true
 default['rogue']['django_maploom']['url'] = "git+https://github.com/DistributedOpenUnifiedGovernmentNetwork/django-maploom.git#egg=django-maploom"
 default['rogue']['geonode']['location'] = '/var/lib/geonode/'
-default['rogue']['rogue_geonode']['branch'] = 'master'
+default['rogue']['rogue_geonode']['branch'] = "#{node.rogue.version}"
 default['rogue']['rogue_geonode']['python_packages'] = ["uwsgi", "psycopg2"]
 default['rogue']['rogue_geonode']['location'] = File.join(node['rogue']['geonode']['location'], 'rogue_geonode')
 default['rogue']['rogue_geonode']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/rogue_geonode.git'
@@ -75,7 +75,7 @@ default['rogue']['rogue_geonode']['settings']['DATABASES'] = {
     :geonode_imports=>{:name=>'geonode_imports', :user=>'geonode', :password=>'geonode', :host=>node.rogue.networking.database.address, :port=>'5432'}
     }
 default['rogue']['geogit']['build_from_source'] = false
-default['rogue']['geogit']['branch'] = 'SprintRelease'
+default['rogue']['geogit']['branch'] = "#{node.rogue.version}"
 
 if node['rogue']['geogit']['build_from_source']
   default['rogue']['geogit']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/GeoGit.git'
@@ -101,15 +101,15 @@ default['rogue']['rogue_geonode']['settings']['CLASSIFICATION_BACKGROUND_COLOR']
 default['rogue']['rogue_geonode']['settings']['CLASSIFICATION_TEXT'] = nil
 
 default['rogue']['stig']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/stig.git'
-default['rogue']['stig']['branch'] = 'master'
+default['rogue']['stig']['branch'] = "#{node.rogue.version}"
 
-default['rogue']['rogue-scripts']['branch'] = 'master'
+default['rogue']['rogue-scripts']['branch'] = "#{node.rogue.version}"
 default['rogue']['rogue-scripts']['location'] = '/opt/rogue-scripts'
 default['rogue']['rogue-scripts']['url'] = 'https://github.com/DistributedOpenUnifiedGovernmentNetwork/rogue-scripts.git'
 
-if node['rogue']['version'] == '1.x'
-  default['rogue']['rogue_geonode']['branch'] = '1.x'
-  default['rogue']['geoserver_data']['branch'] = '1.x'
+if node['rogue']['version'] == 'v0.1a'
+  default['rogue']['rogue_geonode']['branch'] = "#{node.rogue.version}"
+  default['rogue']['geoserver_data']['branch'] = "#{node.rogue.version}"
   default['rogue']['django_maploom']['auto_upgrade'] = false
   default['rogue']['geoserver']['war'] = "http://jenkins.rogue.lmnsolutions.com/userContent/geoshape-1.x/geoserver.war"
 
