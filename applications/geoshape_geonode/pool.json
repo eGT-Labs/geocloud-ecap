@@ -79,12 +79,12 @@
 				"launch-config":{
 					"name":"geoshape_geonode",
 <% if $centos then %>
-	<%= CAP::Config.include("../centos-ami.json") %>,
+	<%= ECAP::Config.include("../centos-ami.json") %>,
 <% elsif $ubuntu then %>
-	<%= CAP::Config.include("../ubuntu-ami.json") %>,
+	<%= ECAP::Config.include("../ubuntu-ami.json") %>,
 <% end %>
 					"iam-policies":[
-<%= CAP::Config.include("../default_iam_node_policies.json") %>
+<%= ECAP::Config.include("../default_iam_node_policies.json") %>
 					],
 <% if $environment == "dev" then %>
 					"size":"m3.large",

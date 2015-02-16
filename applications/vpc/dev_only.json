@@ -15,9 +15,9 @@
                 }
         ],
         "vpcs": [
-<%= CAP::Config.include("dev_vpc.json") %>
+<%= ECAP::Config.include("dev_vpc.json") %>
         ],
         "servers":[
-<%= CAP::Config.include("dev_bastion.json") %>
+<%= ECAP::Config.include("dev_bastion.json") %>
         ]
 }

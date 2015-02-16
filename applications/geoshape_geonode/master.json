@@ -28,24 +28,24 @@ $public_db=false if !$public_db
 	],
 <% if !$deploy_id then %>
     "vpcs": [
-<%= CAP::Config.include("vpc.json") %>
+<%= ECAP::Config.include("vpc.json") %>
     ],
     "servers": [
-<%= CAP::Config.include("bastion.json") %>
+<%= ECAP::Config.include("bastion.json") %>
     ],
 <% end %>
 	"loadbalancers": [
-<%= CAP::Config.include("lb.json") %>
+<%= ECAP::Config.include("lb.json") %>
 	],
 <% if $rds then %>
 	"databases":[
-<%= CAP::Config.include("postgis_dbs.json") %>
+<%= ECAP::Config.include("postgis_dbs.json") %>
 	],
 <% end %>
 	"server_pools":[
-<%= CAP::Config.include("pool.json") %>
+<%= ECAP::Config.include("pool.json") %>
 	],
 	"firewall_rules":[
-<%= CAP::Config.include("security_groups.json") %>
+<%= ECAP::Config.include("security_groups.json") %>
 	]
 }

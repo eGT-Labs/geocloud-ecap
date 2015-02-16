@@ -15,11 +15,11 @@
 		}
 	],
 	"vpcs": [
-<%= CAP::Config.include("dev_vpc.json") %>,
-<%= CAP::Config.include("prod_vpc.json") %>
+<%= ECAP::Config.include("dev_vpc.json") %>,
+<%= ECAP::Config.include("prod_vpc.json") %>
 	],
 	"servers":[
-<%= CAP::Config.include("dev_bastion.json") %>,
-<%= CAP::Config.include("prod_bastion.json") %>
+<%= ECAP::Config.include("dev_bastion.json") %>,
+<%= ECAP::Config.include("prod_bastion.json") %>
 	]
 }

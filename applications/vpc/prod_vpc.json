@@ -29,7 +29,7 @@
 			],
 			"subnets": [
 <%
-azs = CAP::Deploy.listAZs
+azs = ECAP::Deploy.listAZs
 counter=1
 azs.each do |az|
 	if !az.nil?

@@ -4,7 +4,7 @@
 			"ssh_user":"root",
 			"size": "t2.micro",
 			"iam-policies":[
-<%= CAP::Config.include("../default_iam_node_policies.json") %>
+<%= ECAP::Config.include("../default_iam_node_policies.json") %>
 			],
 			"src-dst-check":false,
 			"static_ip": {
