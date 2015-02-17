@@ -29,7 +29,7 @@
                 ],
                         "subnets": [
 <%
-azs = CAP::Deploy.listAZs
+azs = ECAP::Deploy.listAZs
 puts "azs starts as #{azs}"
 azs.each do |raz|
   puts "==looking at #{raz}=="

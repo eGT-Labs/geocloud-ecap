@@ -1,6 +1,6 @@
 		{
 			"name": "dev-vpc-bastion",
-			"ami-id": "ami-c2a818aa",
+			"ami-id": "ami-9659c9fe",
 			"ssh_user":"root",
 			"size": "t2.micro",
 			"iam-policies":[
