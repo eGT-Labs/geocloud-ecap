@@ -3,7 +3,7 @@ maintainer       'Ami Rahav'
 maintainer_email 'amiram.rahav@eglobaltech.com'
 description      'Installs/Configures the ROGUE JCTD project'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.4'
+version          '0.1.5'
 
 depends 'nginx'
 depends 'apt'
@@ -19,3 +19,4 @@ depends 'tomcat'
 depends 'supervisord'
 depends 'runit'
 depends 'git'
+depends 'chef-vault'
