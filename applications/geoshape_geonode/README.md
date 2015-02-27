@@ -68,15 +68,19 @@ Usage
 #### Carry out a master deployment that creates a VPC and deploys into it
 Expected time 34 minutes
 
-`cap-deploy  /opt/ecap/geocloud-ecap/applications/geoshape_geonode/master.json`
+`ecap-deploy  /opt/ecap/geocloud-ecap/applications/geoshape_geonode/master.json`
 
 Same, but exclude zone us-east-1a -- needed in some older accounts with AZs that do not support VPC subnets:
 
-`cap-deploy  /opt/ecap/geocloud-ecap/applications/geoshape_geonode/master.json -p azskip=us-east-1a`
+`ecap-deploy  /opt/ecap/geocloud-ecap/applications/geoshape_geonode/master.json -p azskip=us-east-1a`
 #### Deploy into an existing dev VPC
 The target VPC has the CAPID of INFSTR-DEV-2014121521-CR:
 
-`cap-deploy /opt/ecap/geocloud-ecap/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=INFSTR-DEV-2014121521-CR`
+`ecap-deploy /opt/ecap/geocloud-ecap/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=INFSTR-DEV-2014121521-CR`
+
+Note that the target VPC needs to have been created with the vpc/dev_only.json script, as the geoshape BOK makes assumptions about the VPC name and bastion name at this time:
+
+`ecap-deploy -n /opt/ecap/geocloud-ecap/applications/vpc/dev_only.json -p azskip=us-east-1a`
 
 Errata
 ------

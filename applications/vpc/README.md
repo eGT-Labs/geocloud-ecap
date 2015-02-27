@@ -9,4 +9,4 @@ Usage
 -----
 Create a dev style VPC for future deployments:
 
-`cap-deploy -n /opt/ecap/geocloud-ecap/applications/vpc/dev_only.json -p azskip=us-east-1a`
+`ecap-deploy -n /opt/ecap/geocloud-ecap/applications/vpc/dev_only.json -p azskip=us-east-1a`
