@@ -92,9 +92,9 @@
 			"basis":{
 				"launch-config":{
 					"name":"geoserver",
-<%= CAP::Config.include("../centos-ami.json") %>,
+<%= ECAP::Config.include("../centos-ami.json") %>,
 					"iam-policies":[
-<%= CAP::Config.include("../default_iam_node_policies.json") %>
+<%= ECAP::Config.include("../default_iam_node_policies.json") %>
 					],
 <% if $environment == "dev" then %>
 					"size":"m3.large",
