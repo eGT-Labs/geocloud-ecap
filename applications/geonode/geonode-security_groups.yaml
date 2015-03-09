@@ -1,0 +1,18 @@
+- name: "geonode_secgroup"
+  vpc_name: "<%=$appname%>-vpc"
+  rules: 
+  - port: 8080
+    lbs: 
+    - "xwiki-lb"
+  dependencies: 
+  - type: "loadbalancer"
+    name: "xwiki-lb"
+- name: "jira_secgroup"
+  vpc_name: "<%=$appname%>-vpc"
+  rules: 
+  - port: 8080
+    lbs: 
+    - "jira-lb"
+  dependencies: 
+  - type: "loadbalancer"
+    name: "jira-lb"

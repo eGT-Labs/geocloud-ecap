@@ -1,0 +1,30 @@
+<%
+  if $vpc_id
+    if !$nat_host_id or !$subnet_public_1 or !$subnet_private_1
+      raise "If deploying into an existing VPC, you must specify a nat_host_id and at least one pair of subnets (subnet_public_1/subnet_private_1)"
+    end
+    $nat_ssh_user="root" if !$nat_ssh_user
+  end
+
+  if !$region
+    $region = "us-east-1"
+  end
+
+%>
+---
+appname: "<%=$appname%>"
+region: "<%= $region %>"
+vpcs:
+<% if !$vpc_id then %>
+<%= ECAP::Config.include("vpc.yaml") %>
+<% end %>
+servers:
+<% if !$vpc_id then %>
+<%= ECAP::Config.include("bastion.yaml") %>
+<% end %>
+loadbalancers:
+<%= ECAP::Config.include("geonode-lb.yaml") %>
+server_pools:
+<%= ECAP::Config.include("geonode-pool.yaml") %>
+firewall_rules:
+<%= ECAP::Config.include("geonode-security_groups.yaml") %>

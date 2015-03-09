@@ -1,0 +1,20 @@
+- name: "geonode-lb"
+  vpc: 
+    vpc_name: "<%=$appname%>-vpc"
+    subnets: 
+    - subnet_name: "Public"
+  healthcheck: 
+    target: "HTTP:8080/heartbeat/index.html"
+    timeout: 2
+    interval: 5
+    unhealthy-threshold: 2
+    healthy-threshold: 2
+  listeners: 
+  - lb-port: 80
+    lb-protocol: "HTTP"
+    instance-port: 8080
+    instance-protocol: "HTTP"
+  ingress_rules: 
+  - port: 80
+    hosts: 
+    - "0.0.0.0/0"
