@@ -1,12 +1,18 @@
 - name: "geonode-pool"
   min-size: 1
   max-size: 1
+  ssh_user: "ubuntu"
   loadbalancers: 
   - concurrent-load-balancer: "geonode-lb"
   add_firewall_rules: 
   - rule_name: "geonode_secgroup"
   vpc: 
     vpc_name: "<%=$appname%>-vpc"
+    <% if $vpc_name %>
+    vpc_name: "<%=$vpc_name %>"
+    <% else %>
+    vpc_name: "<%=$appname %>-vpc"
+    <% end %>
     subnets: 
     - subnet_name: "Private1"
     nat_host_name: "bastion"
@@ -23,5 +29,5 @@
     launch-config: 
       name: "geonode-launch"
       size: "t2.medium"
-      iam-role: "CAP-node"
+      iam-role: "ecap_node_role"
       <%= ECAP::Config.include("../hardened-ubuntu-14-ami-#{$region}.yaml") %>

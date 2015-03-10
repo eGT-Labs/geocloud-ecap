@@ -1,6 +1,10 @@
 - name: "geonode-lb"
   vpc: 
-    vpc_name: "<%=$appname%>-vpc"
+    <% if $vpc_name %>
+    vpc_name: "<%=$vpc_name %>"
+    <% else %>
+    vpc_name: "<%=$appname %>-vpc"
+    <% end %>
     subnets: 
     - subnet_name: "Public"
   healthcheck: 

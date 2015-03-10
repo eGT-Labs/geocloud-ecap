@@ -10,16 +10,19 @@
     $region = "us-east-1"
   end
 
+  if !$appname
+    $appname="geonode"
+  end
 %>
 ---
 appname: "<%=$appname%>"
 region: "<%= $region %>"
+<% if !$vpc_name then %>
 vpcs:
-<% if !$vpc_id then %>
 <%= ECAP::Config.include("vpc.yaml") %>
 <% end %>
+<% if !$vpc_name then %>
 servers:
-<% if !$vpc_id then %>
 <%= ECAP::Config.include("bastion.yaml") %>
 <% end %>
 loadbalancers:
