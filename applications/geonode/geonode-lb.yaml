@@ -1,15 +1,13 @@
 - name: "geonode-lb"
-  vpc: 
-    <% if $vpc_name %>
+  vpc:
     vpc_name: "<%=$vpc_name %>"
-    deploy_id: "GEONODE-DEV-2015031019-NT"
-    <% else %>
-    vpc_name: "<%=$appname %>-vpc"
+    <% if $deploy_id %>
+    deploy_id: "<%=$deploy_id %>"
     <% end %>
     subnets: 
     - subnet_name: "Public"
   healthcheck: 
-    target: "HTTP:8080/heartbeat/index.html"
+    target: "HTTP:80/"
     timeout: 2
     interval: 5
     unhealthy-threshold: 2
@@ -17,7 +15,7 @@
   listeners: 
   - lb-port: 80
     lb-protocol: "HTTP"
-    instance-port: 8080
+    instance-port: 80
     instance-protocol: "HTTP"
   ingress_rules: 
   - port: 80

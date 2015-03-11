@@ -1,10 +1,8 @@
 - name: "geonode_secgroup"
   vpc:
-    <% if $vpc_name %>
     vpc_name: "<%=$vpc_name %>"
-    deploy_id: "GEONODE-DEV-2015031019-NT"
-    <% else %>
-    vpc_name: "<%=$appname %>-vpc"
+    <% if $deploy_id %>
+    deploy_id: "<%=$deploy_id %>"
     <% end %>
   rules: 
   - port: 80
