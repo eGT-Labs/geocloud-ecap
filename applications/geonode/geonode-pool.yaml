@@ -1,6 +1,7 @@
 - name: "geonode-pool"
   min-size: 1
   max-size: 1
+  skipinitialupdates: true
   ssh_user: "ubuntu"
   loadbalancers: 
   - concurrent-load-balancer: "geonode-lb"
