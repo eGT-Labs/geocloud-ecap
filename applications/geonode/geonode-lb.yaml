@@ -2,6 +2,7 @@
   vpc: 
     <% if $vpc_name %>
     vpc_name: "<%=$vpc_name %>"
+    deploy_id: "GEONODE-DEV-2015031019-NT"
     <% else %>
     vpc_name: "<%=$appname %>-vpc"
     <% end %>

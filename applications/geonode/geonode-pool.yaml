@@ -10,6 +10,7 @@
     vpc_name: "<%=$appname%>-vpc"
     <% if $vpc_name %>
     vpc_name: "<%=$vpc_name %>"
+    deploy_id: "GEONODE-DEV-2015031019-NT"
     <% else %>
     vpc_name: "<%=$appname %>-vpc"
     <% end %>
@@ -22,9 +23,11 @@
   dependencies: 
   - name: "geonode-lb"
     type: "loadbalancer"
+  <% if !$vpc_name %>
   - name: "bastion"
     type: "server"
     phase: "deploy"
+  <% end %>
   basis: 
     launch-config: 
       name: "geonode-launch"
