@@ -20,6 +20,11 @@ execute "apt-get -y install geonode" do
   user "root"
 end
 
-
+template "/etc/geonode/local_settings.py" do
+	source "local_settings.erb"
+	mode 0644
+	owner "root"
+	group "root"
+end
 
 
