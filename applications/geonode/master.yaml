@@ -5,7 +5,8 @@ $nat_ssh_user="root" if !$nat_ssh_user
 $region = "us-east-1" if !$region
 $appname="geonode" if !$appname
 $vpc_name = $appname+"-vpc" if !$vpc_name
-#puts $bastion_name, $nat_ssh_user, $region, $appname, $vpc_name,$deploy_id
+$public_subnet = "Public" if !$public_subnet
+puts $bastion_name, $nat_ssh_user, $region, $appname, $vpc_name,$deploy_id,$public_subnet
 %>
 ---
 appname: "<%=$appname%>"

@@ -5,7 +5,7 @@
     deploy_id: "<%=$deploy_id %>"
     <% end %>
     subnets: 
-    - subnet_name: "Public"
+    - subnet_name: "<%=$public_subnet %>"
   healthcheck: 
     target: "HTTP:80/"
     timeout: 2

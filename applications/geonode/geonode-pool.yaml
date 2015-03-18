@@ -1,4 +1,5 @@
 - name: "geonode-pool"
+<% puts "=========>,#{$deploy_id},#{$vpc_name},#{$bastion_name}" %>
   min-size: 1
   max-size: 1
   skipinitialupdates: true
@@ -21,7 +22,7 @@
   dependencies: 
   - name: "geonode-lb"
     type: "loadbalancer"
-  <% if !$vpc_name %>
+  <% if !$deploy_id %>
   - name: "<%=$bastion_name %>"
     type: "server"
     phase: "deploy"
