@@ -32,4 +32,4 @@
       name: "geonode-launch"
       size: "t2.medium"
       iam-role: "ecap_node_role"
-      <%= ECAP::Config.include("../hardened-ubuntu-14-ami-#{$region}.yaml") %>
+      <%= include("../hardened-ubuntu-14-ami-#{$region}.yaml") %>

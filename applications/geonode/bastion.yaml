@@ -1,5 +1,5 @@
 - name: "<%=$bastion_name %>"
-  <%= ECAP::Config.include("/centos-ami-#{$region}.yaml") %>
+  <%= include("/centos-ami-#{$region}.yaml") %>
   ssh_user: "root"
   size: "t2.micro"
   skipinitialupdates: true
@@ -22,4 +22,4 @@
     hosts: 
     - "10.0.0.0/16"
   run_list: 
-  - "recipe[utility::nat]"
+  - "recipe[mu-utility::nat]"

@@ -13,16 +13,16 @@ appname: "<%=$appname%>"
 region: "<%= $region %>"
 <% if !$deploy_id then %>
 vpcs:
-<%= ECAP::Config.include("vpc.yaml") %>
+<%= include("vpc.yaml") %>
 <% end %>
 <% if !$deploy_id then %>
 servers:
-<%= ECAP::Config.include("bastion.yaml") %>
+<%= include("bastion.yaml") %>
 <% end %>
 # could put other nonconditional servers here
 loadbalancers:
-<%= ECAP::Config.include("geonode-lb.yaml") %>
+<%= include("geonode-lb.yaml") %>
 server_pools:
-<%= ECAP::Config.include("geonode-pool.yaml") %>
+<%= include("geonode-pool.yaml") %>
 firewall_rules:
-<%= ECAP::Config.include("geonode-security_groups.yaml") %>
+<%= include("geonode-security_groups.yaml") %>
