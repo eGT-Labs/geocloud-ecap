@@ -1,11 +1,11 @@
 		{
 			"name": "bastion",
-<%= ECAP::Config.include("../centos-ami.json") %>,
+<%= include("../centos-ami.json") %>,
 			"ssh_user":"root",
 			"size": "m3.medium",
 			"src-dst-check":false,
 			"iam-policies":[
-<%= ECAP::Config.include("../default_iam_node_policies.json") %>
+<%= include("../default_iam_node_policies.json") %>
 			],
 			"static_ip": {
 				"assign_ip":true
@@ -37,6 +37,6 @@
 				}
 			],
 			"run_list":[
-				"recipe[utility::nat]"
+				"recipe[mu-utility::nat]"
 			]
 		}
