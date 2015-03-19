@@ -68,19 +68,19 @@ Usage
 #### Carry out a master deployment that creates a VPC and deploys into it
 Expected time 34 minutes
 
-`mu-deploy  /opt/mu/geocloud-ecap/applications/geoshape_geonode/master.json`
+`mu-deploy  /opt/mu/geocloud_platform/applications/geoshape_geonode/master.json`
 
 Same, but exclude zone us-east-1a -- needed in some older accounts with AZs that do not support VPC subnets:
 
-`mu-deploy  /opt/mu/geocloud-ecap/applications/geoshape_geonode/master.json -p azskip=us-east-1a`
+`mu-deploy  /opt/mu/geocloud_platform/applications/geoshape_geonode/master.json -p azskip=us-east-1a`
 #### Deploy into an existing dev VPC
 The target VPC has the MU-ID of INFSTR-DEV-2014121521-CR:
 
-`mu-deploy /opt/mu/geocloud-ecap/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=INFSTR-DEV-2014121521-CR`
+`mu-deploy /opt/mu/geocloud_platform/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=INFSTR-DEV-2014121521-CR`
 
 Note that the target VPC needs to have been created with the vpc/dev_only.json script, as the geoshape BOK makes assumptions about the VPC name and bastion name at this time:
 
-`mu-deploy -n /opt/mu/geocloud-ecap/applications/vpc/dev_only.json -p azskip=us-east-1a`
+`mu-deploy -n /opt/mu/geocloud_platform/applications/vpc/dev_only.json -p azskip=us-east-1a`
 
 Errata
 ------
