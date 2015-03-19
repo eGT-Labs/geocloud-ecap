@@ -31,5 +31,5 @@
     launch-config: 
       name: "geonode-launch"
       size: "t2.medium"
-      iam-role: "ecap_node_role"
+      iam-role: "mu_node_role"
       <%= include("../hardened-ubuntu-14-ami-#{$region}.yaml") %>
