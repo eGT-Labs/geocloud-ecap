@@ -17,6 +17,9 @@
    - subnet_name: "Private1"
    nat_host_name: "<%=$bastion_name %>"
    nat_ssh_user: "root"
+  application_attributes:
+    superuser_username: "admin"
+    superuser_password: "ge0node_admin"
   run_list: 
   - "role[geonode]"
   dependencies: 
