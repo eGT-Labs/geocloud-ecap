@@ -7,7 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 # Do this via apt cookbook when there is time, but...
-#execute "add-apt-repository -y ppa:#{node[:some_repo]}" do
+puts "================>",node.deployment.admins["Mu Administrator"].email
+
 execute "add-apt-repository -y ppa:geonode/testing" do
   user "root"
 end
@@ -21,32 +22,32 @@ execute "apt-get -y install geonode" do
 end
 
 package "expect" do
-	action :install
+        action :install
 end
 
 bash "create superuser" do
     user "ubuntu"
     code <<-EOF
-    /usr/bin/expect -c 'spawn usr/sbin/geonode createsuperuser --username admin --email robert.patt-corner@eglobaltech.com
+    /usr/bin/expect -c 'spawn usr/sbin/geonode createsuperuser --username #{node.application_attributes.superuser_username} --email #{node.deployment.admins["Mu Administrator"].email}
     expect "Password: "
-    send "rpcpass\r"
+    send "#{node.application_attributes.superuser_password}\r"
     expect "Password (again):"
-    send "rpcpass\r"
+    send "#{node.application_attributes.superuser_password}\r"
     expect eof'
     EOF
 end
 
 =begin
 user "geonode" do
-	action :create
+        action :create
 end
 
 #go back to this once we abstract the db
 template "/etc/geonode/local_settings.py" do
-	source "local_settings.erb"
-	mode 0644
-	owner "root"
-	group "root"
+        source "local_settings.erb"
+        mode 0644
+        owner "root"
+        group "root"
 =end
 ruby_block "permit load balancer access" do
   block do
@@ -61,6 +62,6 @@ ruby_block "permit load balancer access" do
 end
 
 service "apache2" do
-	action :restart
+        action :restart
 end
 
