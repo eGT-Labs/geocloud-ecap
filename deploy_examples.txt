@@ -1,5 +1,5 @@
 From platform.mu servers
-mu-deploy /opt/mu/geocloud_platgform/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=INFSTR-DEV-2014121617-BU
+mu-deploy /opt/mu/geocloud_platform/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=INFSTR-DEV-2014121617-BU
 
 From old CAP servers
 cap-deploy -n /opt/ecap/geocloud-ecap/applications/vpc/dev_only.json -p azskip=us-east-1a > ~/vpcdeploy.out 
