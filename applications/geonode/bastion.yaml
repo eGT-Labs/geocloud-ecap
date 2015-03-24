@@ -1,5 +1,4 @@
 - name: "<%=$bastion_name %>"
-  <%= include("/centos-ami-#{$region}.yaml") %>
   ssh_user: "root"
   size: "t2.micro"
   skipinitialupdates: true
