@@ -1,11 +1,10 @@
 		{
 			"name":"main",
 			"vpc": {
-				"vpc_name":"<%=$vpc_name %>",
-<% if !$deploy_id then %>
-				,
-				"deploy_id":"<%= $deploy_id %>"
-<% end %>
+				<% if $deploy_id then %>
+					"deploy_id":"<%= $deploy_id %>",
+				<% end %>
+				"vpc_name":"<%=$vpc_name %>"
 			},
 			"cross_zone_unstickiness":true,
 			"idle_timeout":1020,
