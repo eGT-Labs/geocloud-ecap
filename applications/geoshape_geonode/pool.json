@@ -28,7 +28,7 @@
 				}
 			],
 			"vpc": {
-				"vpc_name":"<%=vpc_name %>",
+				"vpc_name":"<%=$vpc_name %>",
 				"subnets":[
 					{
 						"subnet_name":"Public1"

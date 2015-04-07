@@ -1,5 +1,5 @@
 		{
-			"name": "<%=vpc_name %>",
+			"name": "<%=$vpc_name %>",
 			"route-tables": [
 				{
 					"name": "internet",

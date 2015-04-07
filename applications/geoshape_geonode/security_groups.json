@@ -2,7 +2,7 @@
 			"name":"geoshape_geonode_lb",
 			
 			"vpc":{
-				"vpc_name":"<%=vpc_name %>",
+				"vpc_name":"<%=$vpc_name %>",
 <% if $deploy_id then %>
 				"deploy_id":"<%= $deploy_id %>"
 <% end %>
@@ -25,7 +25,7 @@
 		{
 			"name":"geoshape_geonode",
 			"vpc":{
-				"vpc_name":"<%=vpc_name %>",
+				"vpc_name":"<%=$vpc_name %>",
 <% if $deploy_id then %>
 				"deploy_id":"<%= $deploy_id %>"
 <% end %>
@@ -63,7 +63,7 @@
 		,{
 			"name":"postgres",
 			"vpc":{
-				"vpc_name":"<%=vpc_name %>",
+				"vpc_name":"<%=$vpc_name %>",
 <% if $deploy_id then %>
 				"deploy_id":"<%= $deploy_id %>"
 <% end %>

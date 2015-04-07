@@ -31,7 +31,7 @@
 				],
 <% end %>
 				"vpc":{
-					"vpc_name":"<%=vpc_name %>"
+					"vpc_name":"<%=$vpc_name %>"
 					"nat_host_name":"<%=$bastion_name %>",
 					"nat_ssh_user":"<%=$nat_ssh_user %>",
 <% if !$deploy_id then %>
