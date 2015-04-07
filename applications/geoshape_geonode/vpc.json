@@ -1,5 +1,5 @@
 		{
-			"name": "geoshape-geonode-vpc",
+			"name": "<%=vpc_name %>",
 			"route-tables": [
 				{
 					"name": "internet",
@@ -15,7 +15,7 @@
 					"routes": [
 						{
 							"destination_network":"0.0.0.0/0",
-							"nat_host_name":"bastion"
+							"nat_host_name":"<%=$bastion_name %>",
 						}
 					]
 				}
@@ -23,7 +23,7 @@
 			"dependencies":[
 				{
 					"type":"server",
-					"name":"bastion"
+					"name":"<%=$bastion_name %>"
 				}
 			],
 			"subnets": [

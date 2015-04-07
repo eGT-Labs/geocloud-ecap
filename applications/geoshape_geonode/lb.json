@@ -1,8 +1,7 @@
 		{
 			"name":"main",
 			"vpc": {
-<% if !$deploy_id then %>
-				"vpc_name":"geoshape-geonode-vpc",
+				"vpc_name":"<%=vpc_name %>",
 				"subnets":[
 					{
 						"subnet_name":"Public1"
@@ -14,25 +13,9 @@
 						"subnet_name":"Public3"
 					}
 				]
-<% else %>
-	<% if $environment == "dev" then %>
-				"vpc_name":"dev-vpc",
-	<% elsif $environment == "prod" then %>
-				"vpc_name":"prod-vpc",
-	<% end %>
-				"deploy_id":"<%= $deploy_id %>",
-				"subnets":[
-					{
-						"subnet_name":"PubSubnet1"
-					},
-					{
-						"subnet_name":"PubSubnet2"
-					},
-					{
-						"subnet_name":"PubSubnet3"
-					}
-				]
-
+<% if !$deploy_id then %>
+				,
+				"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},
 			"cross_zone_unstickiness":true,

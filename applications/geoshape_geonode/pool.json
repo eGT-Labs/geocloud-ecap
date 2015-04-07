@@ -27,11 +27,8 @@
 					"rule_name":"geoshape_geonode"
 				}
 			],
-			"vpc":{
-<% if !$deploy_id then %>
-				"vpc_name":"geoshape-geonode-vpc",
-				"nat_host_name":"bastion",
-				"nat_ssh_user":"root",
+			"vpc": {
+				"vpc_name":"<%=vpc_name %>",
 				"subnets":[
 					{
 						"subnet_name":"Public1"
@@ -42,28 +39,12 @@
 					{
 						"subnet_name":"Public3"
 					}
-				]
-<% else %>
-	<% if $environment == "dev" then %>
-				"vpc_name":"dev-vpc",
-				"nat_host_name":"dev-vpc-bastion",
-	<% elsif $environment == "prod" then %>
-				"vpc_name":"prod-vpc",
-				"nat_host_name":"prod-vpc-bastion",
-	<% end %>
-				"deploy_id":"<%= $deploy_id %>",
-				"nat_ssh_user":"root",
-				"subnets":[
-					{
-						"subnet_name":"PubSubnet1"
-					},
-					{
-						"subnet_name":"PubSubnet2"
-					},
-					{
-						"subnet_name":"PubSubnet3"
-					}
-				]
+				],
+				"nat_host_name":"<%=$bastion_name %>",
+				"ssh_user":"<%=$nat_ssh_user %>",
+<% if !$deploy_id then %>
+				,
+				"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},
 		    "vault_access" : [{
@@ -87,9 +68,9 @@
 <%= include("../default_iam_node_policies.json") %>
 					],
 <% if $environment == "dev" then %>
-					"size":"m3.large",
+					"size":"m3.small",
 <% else %>
-					"size":"m3.xlarge",
+					"size":"m3.medium",
 <% end %>
 					"storage":[
 						{
