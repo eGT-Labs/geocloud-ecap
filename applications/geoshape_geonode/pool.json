@@ -30,7 +30,7 @@
 			"vpc": {
 				"vpc_name":"<%=$vpc_name %>",
 				<% if $deploy_id then %>
-        "deploy_id":"<%= $deploy_id %>,"
+        "deploy_id":"<%= $deploy_id %>",
 				<% end %>
 				"subnet_pref": "all_private",
 				"nat_host_name":"<%=$bastion_name %>",
@@ -57,9 +57,9 @@
 <%= include("../default_iam_node_policies.json") %>
 					],
 <% if $environment == "dev" then %>
-					"size":"m3.small",
-<% else %>
 					"size":"m3.medium",
+<% else %>
+					"size":"m3.large",
 <% end %>
 					"storage":[
 						{
