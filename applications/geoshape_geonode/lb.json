@@ -2,17 +2,6 @@
 			"name":"main",
 			"vpc": {
 				"vpc_name":"<%=$vpc_name %>",
-				"subnets":[
-					{
-						"subnet_name":"Public1"
-					},
-					{
-						"subnet_name":"Public2"
-					},
-					{
-						"subnet_name":"Public3"
-					}
-				]
 <% if !$deploy_id then %>
 				,
 				"deploy_id":"<%= $deploy_id %>"

@@ -1,5 +1,5 @@
 		{
-			"name":"geonode",
+			"name":"geoshape-pool",
 			"min-size":1,
 			"max-size":1,
 			"associate-public-ip":true,
@@ -29,17 +29,7 @@
 			],
 			"vpc": {
 				"vpc_name":"<%=$vpc_name %>",
-				"subnets":[
-					{
-						"subnet_name":"Public1"
-					},
-					{
-						"subnet_name":"Public2"
-					},
-					{
-						"subnet_name":"Public3"
-					}
-				],
+				"subnet_pref": "all_private",
 				"nat_host_name":"<%=$bastion_name %>",
 				"nat_ssh_user":"<%=$nat_ssh_user %>",
 <% if !$deploy_id then %>
