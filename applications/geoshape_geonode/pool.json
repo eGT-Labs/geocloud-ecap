@@ -41,7 +41,7 @@
 					}
 				],
 				"nat_host_name":"<%=$bastion_name %>",
-				"ssh_user":"<%=$nat_ssh_user %>",
+				"nat_ssh_user":"<%=$nat_ssh_user %>",
 <% if !$deploy_id then %>
 				,
 				"deploy_id":"<%= $deploy_id %>"
