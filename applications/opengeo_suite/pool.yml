@@ -1,0 +1,82 @@
+- name: geoserver
+  min-size: 1
+  max-size: 1
+  loadbalancers: 
+  - concurrent-load-balancer: lb
+  add_firewall_rules: 
+    - rule_name: geoserver
+  vpc:
+    <% if $deploy_id %>
+    deploy_id: <%=$deploy_id %>
+    <% else %>
+    vpc_name: <%=$vpc_name %>
+    <% end %>
+    subnet_pref: all_private
+  run_list: 
+  - role[geonode]
+  dependencies: 
+  - name: lb
+    type: loadbalancer
+  <% if !$deploy_id %>
+  - name: <%=$bastion_name %>
+    type: server
+    phase: deploy
+  <% end %>
+  basis: 
+    launch-config: 
+      name: geoserver
+      size: t2.medium
+      iam-policies:
+      - CloudWatch-Logs: 
+          Version: 2012-10-17
+          Statement: 
+            - 
+              Sid: Stmt1406256819000
+              Effect: Allow
+              Action: 
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:DeleteRetentionPolicy
+                - logs:DescribeLogGroups
+                - logs:DescribeLogStreams
+                - logs:DescribeMetricFilters
+                - logs:GetLogEvents
+                - logs:PutLogEvents
+                - logs:PutMetricFilter
+                - logs:PutRetentionPolicy
+                - logs:TestMetricFilter
+              Resource: 
+                - "*"
+      - S3_List_Get_Objects: 
+          Version: 2012-10-17
+          Statement: 
+            - 
+              Effect: Allow
+              Action: 
+                - s3:GetObject
+                - s3:ListBucket
+                - s3:ListAllMyBuckets
+              Resource: 
+                  - "arn:aws:s3:::geocloud-public"
+                  - "arn:aws:s3:::geocloud-public/*"
+                  - "arn:aws:s3:::GeoCloud-Shared"
+                  - "arn:aws:s3:::GeoCloud-Shared/*"
+      - Snapshots_and_Tags: 
+          Version: 2012-10-17
+          Statement: 
+            - 
+              Sid: Stmt1385828567000
+              Effect: "Allow
+              Action: 
+                - ec2:CreateSnapshot
+                - ec2:DeleteSnapshot
+                - ec2:DescribeSnapshotAttribute
+                - ec2:DescribeSnapshots
+                - ec2:DescribeTags
+                - ec2:CreateTags
+                - ec2:DescribeVolumes
+                - ec2:DescribeVolumeAttribute
+                - ec2:DescribeVolumeStatus
+                - ec2:ModifySnapshotAttribute
+              Resource: 
+                - "*"

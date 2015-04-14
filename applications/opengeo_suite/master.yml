@@ -1,0 +1,20 @@
+<%
+$bastion_name="bastion" if !$bastion_name
+$region = "us-east-1" if !$region
+$appname="opengeosuite" if !$appname
+$vpc_name = $appname+"-vpc" if !$vpc_name
+%>
+appname: "<%= $appname %>"
+region: "<%= $region %>"
+<% if !$deploy_id then %>
+vpcs:
+<%= include("vpc.yml") %>
+servers:
+<%= include("bastion.yml") %>
+<% end %>
+loadbalancers:
+<%= include("lb.yml") %>
+server_pools:
+<%= include("pool.yml") %>
+firewall_rules:
+<%= include("sgs.yml") %>

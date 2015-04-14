@@ -1,0 +1,30 @@
+- name: lb
+  vpc:
+    <% if $deploy_id %>
+    deploy_id: <%=$deploy_id %>
+    <% else %>
+    vpc_name: <%=$vpc_name %>
+    <% end %>
+    subnet_pref: all_public
+  cross_zone_unstickiness: true
+  idle_timeout: 1020
+  connection_draining_timeout: 300
+  lb_cookie_stickiness_policy:
+    name: Geoserver
+  healthcheck: 
+    target: HTTP:8080/geoserver/web/
+    timeout: 2
+    interval: 5
+    unhealthy-threshold: 2
+    healthy-threshold: 2
+  listeners: 
+  - lb-port: 80
+    lb-protocol: HTTP
+    instance-port: 8080
+    instance-protocol: HTTP
+  add_firewall_rules:
+  - rule_name: geoserver_lb
+  ingress_rules: 
+  - port: 80
+    hosts: 
+    - 0.0.0.0/0
