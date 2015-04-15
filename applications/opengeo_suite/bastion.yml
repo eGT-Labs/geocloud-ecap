@@ -27,7 +27,7 @@
             - "*"
   vpc: 
     vpc_name: <%= $vpc_name %>
-    subnet_pref: public
+    subnet_name: Public<%= Random.rand($azs.size-1).floor %>
   ingress_rules: 
   - proto: icmp
     hosts: 

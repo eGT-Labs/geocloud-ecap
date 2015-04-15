@@ -1,11 +1,15 @@
 - name: lb
   vpc:
-    <% if $deploy_id %>
+  <% if $deploy_id %>
     deploy_id: <%=$deploy_id %>
-    <% else %>
-    vpc_name: <%=$vpc_name %>
-    <% end %>
     subnet_pref: all_public
+  <% else %>
+    vpc_name: <%= $vpc_name %>
+    subnets:
+    <% (1..$azs.size).each do |i| %>
+    - subnet_name: Public<%= i-1 %>
+    <% end %>
+  <% end %>
   cross_zone_unstickiness: true
   idle_timeout: 1020
   connection_draining_timeout: 300

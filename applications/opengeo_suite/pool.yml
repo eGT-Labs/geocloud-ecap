@@ -13,7 +13,7 @@
     <% end %>
     subnet_pref: all_private
   run_list: 
-  - role[geonode]
+  - role[opengeo_suite]
   dependencies: 
   - name: lb
     type: loadbalancer
@@ -57,16 +57,16 @@
                 - s3:ListBucket
                 - s3:ListAllMyBuckets
               Resource: 
-                  - "arn:aws:s3:::geocloud-public"
-                  - "arn:aws:s3:::geocloud-public/*"
-                  - "arn:aws:s3:::GeoCloud-Shared"
-                  - "arn:aws:s3:::GeoCloud-Shared/*"
+                - "arn:aws:s3:::geocloud-public"
+                - "arn:aws:s3:::geocloud-public/*"
+                - "arn:aws:s3:::GeoCloud-Shared"
+                - "arn:aws:s3:::GeoCloud-Shared/*"
       - Snapshots_and_Tags: 
           Version: 2012-10-17
           Statement: 
             - 
               Sid: Stmt1385828567000
-              Effect: "Allow
+              Effect: Allow
               Action: 
                 - ec2:CreateSnapshot
                 - ec2:DeleteSnapshot
