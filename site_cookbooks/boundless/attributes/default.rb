@@ -1,3 +1,9 @@
+node.normal.java.java_home = '/usr/lib/jvm/java'
+node.normal.java.install_flavor = 'oracle'
+node.normal.java.jdk_version = 8
+node.normal.java.oracle.accept_oracle_download_terms = true
+node.normal.java.oracle.jce.enabled = true
+
 default['geoserver']['cntrl_flw']['timeout'] = 120
 default['geoserver']['cntrl_flw']['user'] = 8
 default['geoserver']['cntrl_flw']['ows']['global'] = 300

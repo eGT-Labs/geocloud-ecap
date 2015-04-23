@@ -4,7 +4,12 @@
 #
 
 # node.normal.tomcat.app_base = "/usr/share/opengeo"
-node.normal.tomcat.java_options = "-Djava.awt.headless=true -Xms256m -Xmx2G -Xrs -XX:PerfDataSamplingInterval=500 -XX:+UseParallelOldGC -XX:+UseParallelGC -XX:NewRatio=2 -XX:MaxPermSize=256m -XX:SoftRefLRUPolicyMSPerMB=36000 -Dorg.geotools.referencing.forceXY=true -Dorg.geotools.shapefile.datetime=true -DGEOEXPLORER_DATA=#{node.ogeosuite.data_dir}/geoexplorer -DGEOSERVER_LOG_LOCATION=#{node.ogeosuite.geoserver.log_dir}/geoserver.log -DGEOSERVER_AUDIT_PATH=#{node.ogeosuite.geoserver.log_dir} -Djava.library.path=/opt/libjpeg-turbo/lib64:/usr/lib64"
+
+if node.java.jdk_version == 8
+	node.normal.tomcat.java_options = "-Djava.awt.headless=true -Xms256m -Xmx2G -Xrs -XX:PerfDataSamplingInterval=500 -XX:+UseParallelOldGC -XX:+UseParallelGC -XX:NewRatio=2 -XX:SoftRefLRUPolicyMSPerMB=36000 -Dorg.geotools.referencing.forceXY=true -Dorg.geotools.shapefile.datetime=true -DGEOEXPLORER_DATA=#{node.ogeosuite.data_dir}/geoexplorer -DGEOSERVER_LOG_LOCATION=#{node.ogeosuite.geoserver.log_dir}/geoserver.log -DGEOSERVER_AUDIT_PATH=#{node.ogeosuite.geoserver.log_dir} -Djava.library.path=/opt/libjpeg-turbo/lib64:/usr/lib64"
+else
+	node.normal.tomcat.java_options = "-Djava.awt.headless=true -Xms256m -Xmx2G -Xrs -XX:PerfDataSamplingInterval=500 -XX:+UseParallelOldGC -XX:+UseParallelGC -XX:NewRatio=2 -XX:MaxPermSize=256m -XX:SoftRefLRUPolicyMSPerMB=36000 -Dorg.geotools.referencing.forceXY=true -Dorg.geotools.shapefile.datetime=true -DGEOEXPLORER_DATA=#{node.ogeosuite.data_dir}/geoexplorer -DGEOSERVER_LOG_LOCATION=#{node.ogeosuite.geoserver.log_dir}/geoserver.log -DGEOSERVER_AUDIT_PATH=#{node.ogeosuite.geoserver.log_dir} -Djava.library.path=/opt/libjpeg-turbo/lib64:/usr/lib64"
+end
 node.normal.java.java_home = "/usr/lib/jvm/java"
 
 include_recipe 'chef-vault'
@@ -130,15 +135,6 @@ case node[:platform]
 			end
 		end
 
-		%w{local_policy.jar US_export_policy.jar}.each do |file|
-			s3_file "#{node.java.java_home}/jre/lib/security/#{file}" do
-                bucket node.ogeosuite.s3.bucket
-                remote_path "#{node.ogeosuite.s3.bucket_path}/#{file}"
-				owner "root"
-				mode "0644"
-			end
-		end
-
 		directory "/var/log/geoserver" do
 			recursive true
 			owner "tomcat"
@@ -227,14 +223,14 @@ case node[:platform]
 			notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
 		end
 
-                template "#{node.ogeosuite.webapps}/geoserver/WEB-INF/web.xml" do
-                        source "nocluster_web.xml.erb"
-                        owner "tomcat"
-                        group "tomcat"
-                        mode 0644
-                        notifies :restart, 'service[tomcat]', :immediately if File.exists?("/etc/init.d/tomcat")
-                        notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
-                end
+		template "#{node.ogeosuite.webapps}/geoserver/WEB-INF/web.xml" do
+				source "nocluster_web.xml.erb"
+				owner "tomcat"
+				group "tomcat"
+				mode 0644
+				notifies :restart, 'service[tomcat]', :immediately if File.exists?("/etc/init.d/tomcat")
+				notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
+		end
 
 		%w{wcs.xml wfs.xml}.each do |file|
 			cookbook_file "#{node.ogeosuite.geoserver.data_dir}/#{file}" do

@@ -1,0 +1,44 @@
+- name: <%= $bastion_name %>
+  ssh_user: root
+  size: t2.micro
+  src-dst-check: false
+  static_ip: 
+    assign_ip: true
+  iam-policies:
+  - CloudWatch-Logs: 
+      Version: 2012-10-17
+      Statement: 
+        - 
+          Sid: Stmt1406256819000
+          Effect: Allow
+          Action: 
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:DeleteRetentionPolicy
+            - logs:DescribeLogGroups
+            - logs:DescribeLogStreams
+            - logs:DescribeMetricFilters
+            - logs:GetLogEvents
+            - logs:PutLogEvents
+            - logs:PutMetricFilter
+            - logs:PutRetentionPolicy
+            - logs:TestMetricFilter
+          Resource: 
+            - "*"
+  vpc: 
+    vpc_name: <%= $vpc_name %>
+    subnet_name: Public<%= Random.rand($azs.size-1).floor %>
+  ingress_rules: 
+  - proto: icmp
+    hosts: 
+    - 10.0.0.0/16
+  - proto: tcp
+    port-range: 1-65535
+    hosts: 
+    - 10.0.0.0/16
+  - proto: udp
+    port-range: 1-65535
+    hosts: 
+    - 10.0.0.0/16
+  run_list: 
+  - recipe[mu-utility::nat]
