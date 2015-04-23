@@ -1,18 +1,24 @@
 {
 <%
-
+# set up defaults
 $ubuntu = true if !$centos
 $centos = true if !$ubuntu
 if $ubuntu and $centos
 	raise "You must specify either ubuntu or centos"
 end
-
 $public_db=false if !$public_db
-
+$bastion_name="bastion" if !$bastion_name
+$nat_ssh_user="root" if !$nat_ssh_user
+$region = "us-east-1" if !$region
+$appname="geoshape" if !$appname
+$vpc_name = $appname+"-vpc" if !$vpc_name
+$public_subnet = "Public" if !$public_subnet
+puts "Deploying with bastion name, nat ssh user, region, appname, vpc name, deploy id and public subnet ",$bastion_name, $nat_ssh_user, $region, $appname, $vpc_name,$deploy_id,$public_subnet
 %>
 
-	"appname": "geoshape",
-	"region": "us-east-1",
+
+	"appname": "<%=$appname %>",
+	"region": "<%=$region %>",
 	"admins": [
 		{
 			"name": "Ami Rahav",
