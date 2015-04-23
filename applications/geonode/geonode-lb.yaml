@@ -4,8 +4,7 @@
     <% if $deploy_id %>
     deploy_id: "<%=$deploy_id %>"
     <% end %>
-    subnets: 
-    - subnet_name: "<%=$public_subnet %>"
+    subnet_pref: "all_public"
   healthcheck: 
     target: "HTTP:80/"
     timeout: 2

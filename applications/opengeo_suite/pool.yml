@@ -6,6 +6,9 @@
   add_firewall_rules: 
     - rule_name: geoserver
   vpc:
+    subnet_pref: "all_private"
+    nat_host_name: "<%=$bastion_name %>"
+    nat_ssh_user: "root"
     <% if $deploy_id %>
     deploy_id: <%=$deploy_id %>
     <% else %>
@@ -22,6 +25,9 @@
     type: server
     phase: deploy
   <% end %>
+  vault_access:
+  - vault: opengeo_suite
+    item: gs_admin
   basis: 
     launch-config: 
       name: geoserver

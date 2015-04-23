@@ -13,8 +13,7 @@
    <% if $deploy_id %>
    deploy_id: "<%=$deploy_id %>"
    <% end %>
-   subnets:
-   - subnet_name: "Private1"
+   subnet_pref: "all_private"
    nat_host_name: "<%=$bastion_name %>"
    nat_ssh_user: "root"
   application_attributes:

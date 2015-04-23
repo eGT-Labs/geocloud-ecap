@@ -1,20 +1,30 @@
 {
-    "name": "opengeo_suite",
-    "default_attributes": {},
-    "json_class": "Chef::Role",
-    "run_list": [
+    "name" : "opengeo_suite",
+    "default_attributes" : {},
+    "json_class" : "Chef::Role",
+    "run_list" : [
         "recipe[python]",
         "recipe[java]",
         "recipe[tomcat]",
         "recipe[boundless::opengeo-suite]",
         "recipe[boundless::gsconfig]",
-        "recipe[cap-tools::ebs_rolling_snapshots]"
+        "recipe[mu-tools::ebs_rolling_snapshots]"
     ],
-    "description": "Boundless Opengeo Suite",
-    "chef_type": "role",
-    "override_attributes": {
-        "tomcat": {
-            "base_version": 7
+    "description" : "Boundless Opengeo Suite",
+    "chef_type" : "role",
+    "override_attributes" : {
+        "java" : {
+            "install_flavor" : "oracle",
+            "jdk_version" : 7,
+            "oracle" : {
+                "accept_oracle_download_terms" : true
+            }
+        },
+        "tomcat" : {
+            "base_version" : 7
         }
     }
 }
+
+
+		
