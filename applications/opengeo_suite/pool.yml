@@ -32,6 +32,10 @@
     launch-config: 
       name: geoserver
       size: t2.medium
+      storage:
+      - device: /dev/xvdf
+        size: 50
+
       iam-policies:
       - CloudWatch-Logs: 
           Version: 2012-10-17

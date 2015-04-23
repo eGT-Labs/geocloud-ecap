@@ -75,9 +75,12 @@ Same, but exclude zone us-east-1a -- needed in some older accounts with AZs that
 `mu-deploy  /opt/mu/var/geocloud_platform/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p appname=fullshape`
 
 #### Deploy into an existing dev VPC
-The target VPC has the MU-ID of FULLGNODE-DEV-2015042214-ST:
+The target VPC has the MU-ID of ALLZONEGEONODE-DEV-2015042309-RD:
 
-` mu-deploy /opt/mu/var/geocloud_platform/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=FULLGNODE-DEV-2015042214-ST -p appname=shapeIntoVPC`
+Note that for now you need to discover (through the deploy's BOK) and insert the vpc_name
+
+`mu-deploy /opt/mu/var/geocloud_platform/applications/geoshape_geonode/master.json -p azskip=us-east-1a -p deploy_id=ALLZONEGEONODE-DEV-2015042309-RD -p vpc_name=allzonegeonode-vpc '' 
+
 
 
 Errata
