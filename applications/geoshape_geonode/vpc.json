@@ -15,7 +15,7 @@
 					"routes": [
 						{
 							"destination_network":"0.0.0.0/0",
-							"nat_host_name":"<%=$bastion_name %>",
+							"nat_host_name":"<%=$bastion_name %>"
 						}
 					]
 				}

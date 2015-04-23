@@ -12,7 +12,7 @@
 			},
 			"vpc": {
 				"vpc_name":"<%=$vpc_name %>",
-				"subnet_name":"Public1"
+				"subnet_pref": "public"
 			},
 			"ingress_rules":[
 				{

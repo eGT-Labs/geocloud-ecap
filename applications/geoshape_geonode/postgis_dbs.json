@@ -30,60 +30,11 @@
 					"CREATE FUNCTION exec(text) returns text language plpgsql volatile AS $f$ BEGIN EXECUTE $1; RETURN $1; END; $f$; SELECT exec('ALTER TABLE ' || quote_ident(s.nspname) || '.' || quote_ident(s.relname) || ' OWNER TO rds_superuser') FROM (SELECT nspname, relname FROM pg_class c JOIN pg_namespace n ON (c.relnamespace = n.oid) WHERE nspname in ('tiger','topology') AND relkind IN ('r','S','v') ORDER BY relkind = 'S') s;"
 				],
 <% end %>
-				"vpc":{
-					"vpc_name":"<%=$vpc_name %>"
-					"nat_host_name":"<%=$bastion_name %>",
-					"nat_ssh_user":"<%=$nat_ssh_user %>",
-<% if !$deploy_id then %>
-				"subnets":[
-	<% if $public_db then %>
-					{
-						"subnet_name":"Public1"
-					},
-					{
-						"subnet_name":"Public2"
-					},
-					{
-						"subnet_name":"Public3"
-					}
-	<% else %>
-					{
-						"subnet_name":"Private1"
-					},
-					{
-						"subnet_name":"Private2"
-					},
-					{
-						"subnet_name":"Private3"
-					}
-	<% end %>
-				]
-<% else %>
-	"deploy_id":"<%= $deploy_id %>",
-		"subnets":[
-	<% if $public_db then %>
-					{
-						"subnet_name":"PubSubnet1"
-					},
-					{
-						"subnet_name":"PubSubnet2"
-					},
-					{
-						"subnet_name":"PubSubnet3"
-					}
-	<% else %>
-					{
-						"subnet_name":"DatabasesPrvSubnet1"
-					},
-					{
-						"subnet_name":"DatabasesPrvSubnet2"
-					},
-					{
-						"subnet_name":"DatabasesPrvSubnet3"
-					}
-	<% end %>
-				]
-<% end %>
-			}
+"vpc":{
+	"vpc_name":"<%=$vpc_name %>"
+	"nat_host_name":"<%=$bastion_name %>",
+	"nat_ssh_user":"<%=$nat_ssh_user %>",
+	"subnet_pref" : "all_private"
+}
 
 }

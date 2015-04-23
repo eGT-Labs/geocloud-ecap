@@ -4,7 +4,19 @@ $region = "us-east-1" if !$region
 $appname="opengeosuite" if !$appname
 $vpc_name = "vpc" if !$vpc_name
 $azs = listAZs
+# Now remove an invalid AZ if any specified
+puts "azs starts as #{$azs}"
+$azs.each do |raz|
+  puts "==looking at #{raz}=="
+  if raz==$azskip then
+        puts "==Skipping #{raz} =="
+        $azs.delete(raz)
+  end
+
+  puts "azs is now #{$azs} "
+end
 %>
+
 appname: <%= $appname %>
 region: <%= $region %>
 <% if !$deploy_id then %>

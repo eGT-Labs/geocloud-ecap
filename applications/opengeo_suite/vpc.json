@@ -27,10 +27,27 @@
 				}
 			],
 			"subnets": [
+
 <%
-azs = ECAP::Deploy.listAZs
+azs = listAZs
+puts "azs starts as #{azs}"
+azs.each do |raz|
+  puts "==looking at #{raz}=="
+  if raz==$azskip then
+        puts "==Skipping #{raz} =="
+        azs.delete(raz)
+  end
+
+  puts "azs is now #{azs} "
+end
+
 counter=1
 azs.each do |az|
+
+
+
+
+
 	if !az.nil?
 %>
 				{
