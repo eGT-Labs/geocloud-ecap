@@ -28,3 +28,16 @@
     sgs:
     - geoserver_lb
     - geoserver
+<% if $create_db %>
+- name: postgres
+  vpc:
+    <% if $deploy_id %>
+    deploy_id: <%= $deploy_id %>
+    <% else %>
+    vpc_name: <%= $vpc_name %>
+    <% end %>
+  rules:
+  - port: 5432
+    sgs:
+    - geoserver
+<% end %>

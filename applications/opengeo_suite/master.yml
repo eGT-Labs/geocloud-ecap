@@ -26,3 +26,7 @@ server_pools:
 <%= include("pool.yml") %>
 firewall_rules:
 <%= include("sgs.yml") %>
+<% if $create_db %>
+databases:
+<%= include("postgres_rds.yml") %>
+<% end %>

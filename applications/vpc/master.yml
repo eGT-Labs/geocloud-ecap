@@ -6,9 +6,11 @@ $vpc_name = "vpc" if !$vpc_name
 $vpc_cidr = "10.20.0.0/16" if !$vpc_cidr
 $azs = listAZs
 # Now remove an invalid AZ if any specified
-puts "azs starts as #{$azs}"
-$azs.delete($azskip) if $azskip
-puts "deleted #{$azskip}, AZs are now #{$azs}"
+if $azskip
+	puts "azs starts as #{$azs}"
+	$azs.delete($azskip)
+	puts "deleted #{$azskip}, AZs are now #{$azs}"
+end
 %>
 appname: <%= $appname %>
 region: <%= $region %>

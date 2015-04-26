@@ -18,6 +18,10 @@
   dependencies:
   - name: lb
     type: loadbalancer
+  <% if $create_db %>
+  - name: postgis
+    type: database
+  <% end %>
   <% if !$deploy_id %>
   - name: <%= $bastion_name %>
     type: server
@@ -26,6 +30,16 @@
   vault_access:
   - vault: opengeo_suite
     item: gs_admin
+    <% if $create_db %>
+  - vault: opengeo_suite
+    item: postgres
+    <% end %>
+  application_attributes:
+    <% if $create_db %>
+    create_db: true
+    <% else %>
+    create_db: false
+    <% end %>
   basis:
     launch-config:
       name: geoserver

@@ -10,6 +10,7 @@ else
 end
 
 include_recipe 'chef-vault'
+include_recipe 'boundless::postgres_db' if node.application_attributes.create_db
 
 # Vaults commented out per Ami 4/23/15, probably back in soon
 
@@ -21,10 +22,6 @@ gs_admin_auth_info = chef_vault_item("opengeo_suite", "gs_admin")
 # $gs_admin_pwd_digest = gs_admin_auth_info['hash']
 $gs_admin_usr = gs_admin_auth_info['username']
 $gs_admin_pwd = gs_admin_auth_info['password']
-
-#gs_postgres_auth_info = chef_vault_item("opengeo_suite", "postgres")
-#$gs_postgres_usr_cfg = gs_postgres_auth_info['username']
-#$gs_postgres_pwd_cfg = gs_postgres_auth_info['password']
 
 case node[:platform]
 when "centos"
@@ -83,12 +80,12 @@ when "centos"
 		end
 	}
 
-	%w{docs examples host-manager manager ROOT}.each do |dir|
+	%w{docs examples host-manager manager ROOT}.each { |dir|
 		directory "#{node.tomcat.home}/webapps/#{dir}" do
 			action :delete
 			recursive true
 		end
-	end
+	}
 
 	directory "#{node.tomcat.home}/webapps/ROOT" do
 		owner 'tomcat'
@@ -115,7 +112,7 @@ when "centos"
 
 	include_recipe 'java'
 
-	%w{libclib_jiio.so libmlib_jai.so}.each do |file|
+	%w{libclib_jiio.so libmlib_jai.so}.each { |file|
 		s3_file "#{node.normal.java.java_home}/jre/lib/amd64/#{file}" do
 			bucket node.suite.s3_bucket
 			remote_path "#{node.suite.s3_bucket_path}/jai/#{file}"
@@ -123,9 +120,9 @@ when "centos"
 			group 'root'
 			mode 0755
 		end
-	end
+	}
 
-	%w{clibwrapper_jiio.jar jai_codec.jar jai_core.jar jai_imageio.jar mlibwrapper_jai.jar}.each do |file|
+	%w{clibwrapper_jiio.jar jai_codec.jar jai_core.jar jai_imageio.jar mlibwrapper_jai.jar}.each { |file|
 		s3_file "#{node.normal.java.java_home}/jre/lib/ext/#{file}" do
 			bucket node.suite.s3_bucket
 			remote_path "#{node.suite.s3_bucket_path}/jai/#{file}"
@@ -133,7 +130,7 @@ when "centos"
 			group 'root'
 			mode 0644
 		end
-	end
+	}
 
 	# %w{local_policy.jar US_export_policy.jar}.each do |file|
 		# s3_file "#{node.java.java_home}/jre/lib/security/#{file}" do
@@ -189,7 +186,7 @@ when "centos"
 		mode 0644
 	end
 
-	node.suite.supporting_packages.each do |pkg| 
+	node.suite.supporting_packages.each { |pkg| 
 		s3_file "#{Chef::Config[:file_cache_path]}/#{pkg["rpm"]}" do
 			bucket node.suite.s3_bucket
 			remote_path "#{node.suite.s3_bucket_path}/#{pkg["rpm"]}"
@@ -197,7 +194,7 @@ when "centos"
 		package "#{pkg["name"]}" do
 			source "#{Chef::Config[:file_cache_path]}/#{pkg["rpm"]}"
 		end
-	end
+	}
 
 	template "#{node.suite.geoserver.data_dir}/controlflow.properties" do
 		source "controlflow.properties.erb"
@@ -206,14 +203,14 @@ when "centos"
 		notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
 	end
 
-	%w{mod_xml.py mod_gs_contact.py}.each do |file|
+	%w{mod_xml.py mod_gs_contact.py}.each { |file|
 		cookbook_file "#{Chef::Config[:file_cache_path]}/#{file}" do
 			source file
 		end
-	end
+	}
 
 	if node.suite.geoserver.set_pwd == true
-		node.suite.geoserver.pwd_files.each do |file|
+		node.suite.geoserver.pwd_files.each { |file|
 			template "#{node.suite.geoserver.data_dir}/#{file["dir"]}/#{file["fname"]}" do
 				source "#{file["fname"]}.erb"
 				owner 'tomcat'
@@ -221,7 +218,7 @@ when "centos"
 				mode 0640
 			end
 		end
-	end
+	}
 
 	template "#{node.suite.geoserver.data_dir}/security/config.xml" do
 		source "config.xml.erb"
@@ -241,14 +238,14 @@ when "centos"
 		notifies :restart, 'service[tomcat7]', :delayed if !File.exists?("/etc/init.d/tomcat")
 	end
 
-	%w{wcs.xml wfs.xml}.each do |file|
+	%w{wcs.xml wfs.xml}.each { |file|
 		cookbook_file "#{node.suite.geoserver.data_dir}/#{file}" do
 			source file
 			owner 'tomcat'
 			group 'tomcat'
 			mode 0644
 		end
-	end
+	}
 
 	service "tomcat" do
 		action [ :stop, :disable ]
@@ -276,7 +273,7 @@ when "centos"
 		not_if { Dir.exists?("#{node.suite.geoserver.data_dir}/monitoring") }
 	end
 
-	%w{content.ftl filter.properties footer.ftl header.ftl monitor.properties}.each do |file|
+	%w{content.ftl filter.properties footer.ftl header.ftl monitor.properties}.each { |file|
 		cookbook_file "#{node.suite.geoserver.data_dir}/monitoring/#{file}" do
 			source "gs_monitor/#{file}"
 			owner 'tomcat'
@@ -284,7 +281,7 @@ when "centos"
 			mode 0644
 			notifies :restart, 'service[tomcat7]'
 		end
-	end
+	}
 
 	execute "python #{Chef::Config[:file_cache_path]}/mod_xml.py -d #{node.suite.geoserver.data_dir}"
 	execute "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p \"#{$gs_admin_pwd}\""
