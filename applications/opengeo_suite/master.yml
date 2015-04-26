@@ -5,9 +5,11 @@ $appname="opengeosuite" if !$appname
 $vpc_name = "vpc" if !$vpc_name
 $azs = listAZs
 # Now remove an invalid AZ if any specified
-puts "azs starts as #{$azs}"
-$azs.delete($azskip) if $azskip
-puts "deleted #{$azskip}, AZs are now #{$azs}"
+if $azskip
+	puts "azs starts as #{$azs}"
+	$azs.delete($azskip)
+	puts "deleted #{$azskip}, AZs are now #{$azs}"
+end
 %>
 
 appname: <%= $appname %>

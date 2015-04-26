@@ -12,10 +12,14 @@ case node[:platform]
 		node.normal.tomcat.jndi = true
 
 		node.normal.tomcat.jndi_connections = [
-		{ "datasource_name" => "gscatalog", "driver" =>  "org.postgresql.Driver", "user" => $gs_postgres_usr_cfg, "pwd" => $gs_postgres_pwd_cfg, "max_active" => 40, "max_idle" => 10, "max_wait" => -1,
-		  "connection_string" => "postgresql://#{node.deployment.databases.postgis.endpoint}:#{node.deployment.databases.postgis.port}/#{node.ogeosuite.geoserver.db_name}" },
-		{ "datasource_name" => "gsdata", "driver" =>  "org.postgresql.Driver", "user" => $gs_postgres_usr_cfg, "pwd" => $gs_postgres_pwd_cfg, "max_active" => 40, "max_idle" => 10, "max_wait" => -1,
-		  "connection_string" => "postgresql://#{node.deployment.databases.postgis.endpoint}:#{node.deployment.databases.postgis.port}/#{node.geoserver.db_name}" }
+			{
+				"datasource_name" => "gscatalog", "driver" =>  "org.postgresql.Driver", "user" => $gs_postgres_usr_cfg, "pwd" => $gs_postgres_pwd_cfg, "max_active" => 40, "max_idle" => 10, "max_wait" => -1,
+				"connection_string" => "postgresql://#{node.deployment.databases.postgis.endpoint}:#{node.deployment.databases.postgis.port}/#{node.suite.geoserver.config_db_name}" 
+			},
+			{
+				"datasource_name" => "gsdata", "driver" =>  "org.postgresql.Driver", "user" => $gs_postgres_usr_cfg, "pwd" => $gs_postgres_pwd_cfg, "max_active" => 40, "max_idle" => 10, "max_wait" => -1,
+				"connection_string" => "postgresql://#{node.deployment.databases.postgis.endpoint}:#{node.deployment.databases.postgis.port}/#{node.suite.geoserver.data_db_name}" 
+			}
 		]
 
 		found_master = false
@@ -46,7 +50,7 @@ case node[:platform]
 					EOH
 					sensitive true
 				end
-				[node.ogeosuite.geoserver.db_name, node.geoserver.db_name].each do |db_name|
+				[node.suite.geoserver.config_db_name, node.suite.geoserver.data_db_name].each do |db_name|
 					bash "Create database #{db_name} for Geoserver" do
 						code <<-EOH
 							query='PGPASSWORD=#{node.deployment.databases.postgis.password} psql -h #{node.deployment.databases.postgis.endpoint} -U #{node.deployment.databases.postgis.username} -t -c "select count(1) from pg_catalog.pg_database where datname = '"'#{db_name}'"'"'
