@@ -1,7 +1,7 @@
 enabled=true
 initScript=${GEOSERVER_DATA_DIR}/jdbcconfig/scripts/initdb.postgres.sql
-initdb=<%= node.ogeosuite.geoserver.init_db %>
-import=<%= node.ogeosuite.geoserver.import_cfg_to_postgres %>
+initdb=<%= node.suite.geoserver.init_db %>
+import=<%= node.suite.geoserver.import_cfg_to_postgres %>
 jndiName=java\:/comp/env/jdbc/<%= node.tomcat.jndi_connections[0]["datasource_name"] %>
 pool.minIdle=4
 pool.maxActive=50
