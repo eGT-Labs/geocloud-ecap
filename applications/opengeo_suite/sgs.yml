@@ -5,12 +5,12 @@
     <% else %>
     vpc_name: <%= $vpc_name %>
     <% end %>
-  rules: 
+  rules:
   - port: 80
-    hosts: 
+    hosts:
     - 0.0.0.0/0
   - port: 443
-    hosts: 
+    hosts:
     - 0.0.0.0/0
 - name: geoserver
   vpc:
@@ -19,12 +19,12 @@
     <% else %>
     vpc_name: <%= $vpc_name %>
     <% end %>
-  rules: 
+  rules:
   - port: 8080
-    sgs: 
+    sgs:
     - geoserver_lb
     - geoserver
   - port: 8443
-    sgs: 
+    sgs:
     - geoserver_lb
     - geoserver

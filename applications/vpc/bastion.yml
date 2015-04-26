@@ -26,17 +26,20 @@
             - "*"
   vpc:
     vpc_name: <%= $vpc_name %>
+  application_attributes:
+    nat:
+      private_net: <%= $vpc_cidr %>
   ingress_rules:
   - proto: icmp
     hosts:
-    - 10.0.0.0/8
+    - <%= $vpc_cidr %>
   - proto: tcp
     port-range: 1-65535
     hosts:
-    - 10.0.0.0/8
+    - <%= $vpc_cidr %>
   - proto: udp
     port-range: 1-65535
     hosts:
-    - 10.0.0.0/8
+    - <%= $vpc_cidr %>
   run_list:
   - recipe[mu-utility::nat]

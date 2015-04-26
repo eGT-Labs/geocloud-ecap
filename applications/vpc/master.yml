@@ -1,26 +1,18 @@
 <%
 $bastion_name="bastion" if !$bastion_name
 $region = "us-east-1" if !$region
-$appname="opengeosuite" if !$appname
+$appname="geocloud" if !$appname
 $vpc_name = "vpc" if !$vpc_name
+$vpc_cidr = "10.20.0.0/16" if !$vpc_cidr
 $azs = listAZs
 # Now remove an invalid AZ if any specified
 puts "azs starts as #{$azs}"
 $azs.delete($azskip) if $azskip
 puts "deleted #{$azskip}, AZs are now #{$azs}"
 %>
-
 appname: <%= $appname %>
 region: <%= $region %>
-<% if !$deploy_id %>
 vpcs:
 <%= include("vpc.yml") %>
 servers:
 <%= include("bastion.yml") %>
-<% end %>
-loadbalancers:
-<%= include("lb.yml") %>
-server_pools:
-<%= include("pool.yml") %>
-firewall_rules:
-<%= include("sgs.yml") %>

@@ -4,6 +4,12 @@ node.normal.java.jdk_version = 8
 node.normal.java.oracle.accept_oracle_download_terms = true
 node.normal.java.oracle.jce.enabled = true
 
+if platform_family?("windows")
+	default.ogeosuite.java_max_heap_size = '2G'
+else
+	default.ogeosuite.java_max_heap_size = "#{(node.memory.total.to_i * 0.6 ).floor / 1024}m"
+end
+
 default['geoserver']['cntrl_flw']['timeout'] = 120
 default['geoserver']['cntrl_flw']['user'] = 8
 default['geoserver']['cntrl_flw']['ows']['global'] = 300
@@ -24,6 +30,7 @@ default['ogeosuite']['webapps'] = "/usr/share/opengeo"
 default['ogeosuite']['geoserver']['log_dir'] = "/var/log/geoserver/#{node.ec2.instance_id}"
 default['ogeosuite']['geoserver']['data_dir'] = "#{node.ogeosuite.data_dir}/geoserver"
 default['ogeosuite']['geoserver']['gwc_dir'] = "#{node.ogeosuite.data_dir}/geowebcache"
+default.ogeosuite.geoexplorer.data_dir = "#{node.ogeosuite.data_dir}/geoexplorer"
 default['ogeosuite']['geoserver']['db_name'] = "geoserver"
 default['geoserver']['db_name'] = "geoserver_data"
 default['ogeosuite']['geoserver']['set_pwd'] = true

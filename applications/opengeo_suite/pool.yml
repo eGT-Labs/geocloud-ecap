@@ -1,49 +1,46 @@
 - name: geoserver
   min-size: 1
   max-size: 1
-  loadbalancers: 
+  loadbalancers:
   - concurrent-load-balancer: lb
-  add_firewall_rules: 
+  add_firewall_rules:
     - rule_name: geoserver
   vpc:
-    subnet_pref: "all_private"
-    nat_host_name: "<%=$bastion_name %>"
-    nat_ssh_user: "root"
     <% if $deploy_id %>
-    deploy_id: <%=$deploy_id %>
+    deploy_id: <%= $deploy_id %>
     <% else %>
-    vpc_name: <%=$vpc_name %>
+    vpc_name: <%= $vpc_name %>
+    nat_host_name: <%= $bastion_name %>
     <% end %>
     subnet_pref: all_private
-  run_list: 
+  run_list:
   - role[opengeo_suite]
-  dependencies: 
+  dependencies:
   - name: lb
     type: loadbalancer
   <% if !$deploy_id %>
-  - name: <%=$bastion_name %>
+  - name: <%= $bastion_name %>
     type: server
     phase: deploy
   <% end %>
   vault_access:
   - vault: opengeo_suite
     item: gs_admin
-  basis: 
-    launch-config: 
+  basis:
+    launch-config:
       name: geoserver
       size: t2.medium
       storage:
       - device: /dev/xvdf
         size: 50
-
       iam-policies:
-      - CloudWatch-Logs: 
+      - CloudWatch-Logs:
           Version: 2012-10-17
-          Statement: 
-            - 
+          Statement:
+            -
               Sid: Stmt1406256819000
               Effect: Allow
-              Action: 
+              Action:
                 - logs:CreateLogGroup
                 - logs:CreateLogStream
                 - logs:DeleteRetentionPolicy
@@ -55,29 +52,29 @@
                 - logs:PutMetricFilter
                 - logs:PutRetentionPolicy
                 - logs:TestMetricFilter
-              Resource: 
+              Resource:
                 - "*"
-      - S3_List_Get_Objects: 
+      - S3_List_Get_Objects:
           Version: 2012-10-17
-          Statement: 
-            - 
+          Statement:
+            -
               Effect: Allow
-              Action: 
+              Action:
                 - s3:GetObject
                 - s3:ListBucket
                 - s3:ListAllMyBuckets
-              Resource: 
+              Resource:
                 - "arn:aws:s3:::geocloud-public"
                 - "arn:aws:s3:::geocloud-public/*"
                 - "arn:aws:s3:::GeoCloud-Shared"
                 - "arn:aws:s3:::GeoCloud-Shared/*"
-      - Snapshots_and_Tags: 
+      - Snapshots_and_Tags:
           Version: 2012-10-17
-          Statement: 
-            - 
+          Statement:
+            -
               Sid: Stmt1385828567000
               Effect: Allow
-              Action: 
+              Action:
                 - ec2:CreateSnapshot
                 - ec2:DeleteSnapshot
                 - ec2:DescribeSnapshotAttribute
@@ -88,5 +85,5 @@
                 - ec2:DescribeVolumeAttribute
                 - ec2:DescribeVolumeStatus
                 - ec2:ModifySnapshotAttribute
-              Resource: 
+              Resource:
                 - "*"

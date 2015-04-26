@@ -3,9 +3,11 @@
 # Recipe::opengeo-suite
 #
 
-# node.normal.tomcat.app_base = "/usr/share/opengeo"
-node.normal.tomcat.java_options = "-Djava.awt.headless=true -Xms256m -Xmx2G -Xrs -XX:PerfDataSamplingInterval=500 -XX:+UseParallelOldGC -XX:+UseParallelGC -XX:NewRatio=2 -XX:MaxPermSize=256m -XX:SoftRefLRUPolicyMSPerMB=36000 -Dorg.geotools.referencing.forceXY=true -Dorg.geotools.shapefile.datetime=true -DGEOEXPLORER_DATA=#{node.ogeosuite.data_dir}/geoexplorer -DGEOSERVER_LOG_LOCATION=#{node.ogeosuite.geoserver.log_dir}/geoserver.log -DGEOSERVER_AUDIT_PATH=#{node.ogeosuite.geoserver.log_dir} -Djava.library.path=/opt/libjpeg-turbo/lib64:/usr/lib64"
-node.normal.java.java_home = "/usr/lib/jvm/java"
+if node.java.jdk_version == 8
+	node.normal.tomcat.java_options = "-Djava.awt.headless=true -Xms256m -Xmx#{node.ogeosuite.java_max_heap_size} -Xrs -XX:PerfDataSamplingInterval=500 -XX:+UseParallelOldGC -XX:+UseParallelGC -XX:NewRatio=2 -XX:SoftRefLRUPolicyMSPerMB=36000 -Dorg.geotools.referencing.forceXY=true -Dorg.geotools.shapefile.datetime=true -DGEOEXPLORER_DATA=#{node.ogeosuite.geoexplorer.data_dir} -DGEOSERVER_LOG_LOCATION=#{node.ogeosuite.geoserver.log_dir}/geoserver.log -DGEOSERVER_AUDIT_PATH=#{node.ogeosuite.geoserver.log_dir} -Djava.library.path=/opt/libjpeg-turbo/lib64:/usr/lib64"
+else
+	node.normal.tomcat.java_options = "-Djava.awt.headless=true -Xms256m -Xmx#{node.ogeosuite.java_max_heap_size} -Xrs -XX:PerfDataSamplingInterval=500 -XX:+UseParallelOldGC -XX:+UseParallelGC -XX:NewRatio=2 -XX:MaxPermSize=256m -XX:SoftRefLRUPolicyMSPerMB=36000 -Dorg.geotools.referencing.forceXY=true -Dorg.geotools.shapefile.datetime=true -DGEOEXPLORER_DATA=#{node.ogeosuite.geoexplorer.data_dir} -DGEOSERVER_LOG_LOCATION=#{node.ogeosuite.geoserver.log_dir}/geoserver.log -DGEOSERVER_AUDIT_PATH=#{node.ogeosuite.geoserver.log_dir} -Djava.library.path=/opt/libjpeg-turbo/lib64:/usr/lib64"
+end
 
 include_recipe 'chef-vault'
 
@@ -16,7 +18,7 @@ include_recipe 'chef-vault'
 #$gs_root_pwd_digest = gs_root_auth_info['password']
 
 gs_admin_auth_info = chef_vault_item("opengeo_suite", "gs_admin")
-$gs_admin_pwd_digest = gs_admin_auth_info['hash']
+# $gs_admin_pwd_digest = gs_admin_auth_info['hash']
 $gs_admin_usr = gs_admin_auth_info['username']
 $gs_admin_pwd = gs_admin_auth_info['password']
 
@@ -54,6 +56,13 @@ case node[:platform]
 
 		service "tomcat7" do
 			action :nothing
+		end
+		
+		
+		[node.java.oracle.jce.home, File.join(node.java.oracle.jce.home, node.java.jdk_version.to_s)].each do |path|
+			directory path do
+				mode 0755
+			end
 		end
 
 		yum_repository 'boundlessgeo' do
