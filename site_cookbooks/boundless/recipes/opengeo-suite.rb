@@ -217,8 +217,8 @@ when "centos"
 				group 'tomcat'
 				mode 0640
 			end
-		end
-	}
+		}
+	end
 
 	template "#{node.suite.geoserver.data_dir}/security/config.xml" do
 		source "config.xml.erb"

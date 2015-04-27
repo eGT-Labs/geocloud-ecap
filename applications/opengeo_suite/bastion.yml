@@ -1,5 +1,4 @@
 - name: <%= $bastion_name %>
-  ssh_user: root
   size: t2.micro
   src-dst-check: false
   static_ip:
