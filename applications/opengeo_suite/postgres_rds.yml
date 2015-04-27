@@ -13,7 +13,7 @@
     <% else %>
     vpc_name: <%= $vpc_name %>
     <% end %>
-    subnet_pref: all
+    subnet_pref: all_public
   <% if !$deploy_id %>
   dependencies:
   - name: <%= $bastion_name %>
