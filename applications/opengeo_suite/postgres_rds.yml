@@ -1,7 +1,11 @@
 - name: postgis
   engine: postgres
   version: 9.4.1
+  <% if $public_db %>
+  publicly_accessible: true
+  <% else %>
   publicly_accessible: false
+  <% end %>
   size: db.t2.medium
   port: 5432
   storage: 50
@@ -12,9 +16,12 @@
     deploy_id: <%= $deploy_id %>
     <% else %>
     vpc_name: <%= $vpc_name %>
-    nat_host_name: <%= $bastion_name %>
     <% end %>
+  <% if $public_db %>
+    subnet_pref: all_public
+  <% else %>
     subnet_pref: all_private
+  <% end %>
   <% if !$deploy_id %>
   dependencies:
   - name: <%= $bastion_name %>
