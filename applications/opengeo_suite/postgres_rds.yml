@@ -1,9 +1,7 @@
 - name: postgis
   engine: postgres
   version: 9.4.1
-  <% if $public_db %>
-  publicly_accessible: true
-  <% else %>
+  <% if !$public_db %>
   publicly_accessible: false
   <% end %>
   size: db.t2.medium
@@ -19,8 +17,6 @@
     <% end %>
   <% if $public_db %>
     subnet_pref: all_public
-  <% else %>
-    subnet_pref: all_private
   <% end %>
   <% if !$deploy_id %>
   dependencies:
