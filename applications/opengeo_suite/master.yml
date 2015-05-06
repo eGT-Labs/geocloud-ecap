@@ -16,17 +16,17 @@ appname: <%= $appname %>
 region: <%= $region %>
 <% if !$deploy_id %>
 vpcs:
-<%= include("vpc.yml") %>
+  <%= include("vpc.yml") %>
 servers:
-<%= include("bastion.yml") %>
+  <%= include("bastion.yml") %>
 <% end %>
 loadbalancers:
-<%= include("lb.yml") %>
+  <%= include("lb.yml") %>
 server_pools:
-<%= include("pool.yml") %>
+  <%= include("pool.yml") %>
 firewall_rules:
-<%= include("sgs.yml") %>
+  <%= include("sgs.yml") %>
 <% if $create_db %>
 databases:
-<%= include("postgres_rds.yml") %>
+  <%= include("postgres_rds.yml") %>
 <% end %>
