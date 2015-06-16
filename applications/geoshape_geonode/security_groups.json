@@ -2,9 +2,9 @@
 			"name":"geoshape_geonode_lb",
 			
 			"vpc":{
-				"vpc_name":"<%=$vpc_name %>",
+				"vpc_name":"<%=$vpc_name %>"
 <% if $deploy_id then %>
-				"deploy_id":"<%= $deploy_id %>"
+				,"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},
 			"rules": [
@@ -25,9 +25,9 @@
 		{
 			"name":"geoshape_geonode",
 			"vpc":{
-				"vpc_name":"<%=$vpc_name %>",
+				"vpc_name":"<%=$vpc_name %>"
 <% if $deploy_id then %>
-				"deploy_id":"<%= $deploy_id %>"
+				,"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},
 			"rules": [

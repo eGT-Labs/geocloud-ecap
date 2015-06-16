@@ -16,14 +16,14 @@ You will have to create the VPC separately. See the VPC section.
 `mu-deploy /opt/mu/var/geocloud_platform/applications/opengeo_suite/master.yml -p deploy_id=GEOCLOUD-DEV-2015042522-TA`
 
 #### Deploy stack with PostgresSQL RDS
+You will have to create a vault before deploying the first time:
+
+`knife vault create opengeo_suite postgres '{"username": "anyusername", "password": "anypassword"}'`
+
 You can add azskip or deploy_id if needed
 
  `mu-deploy /opt/mu/var/geocloud_platform/applications/opengeo_suite/master.yml -p create_db=true`
  
-You will also have to create a vault before deploying:
-
-`knife vault create opengeo_suite postgres '{"username": "anyusername", "password": "anypassword"}'`
-
 Control the public or nonpublic visibility of the databases.  Default is to make database available only in private subnets for security: 
 
 `mu-deploy  /opt/mu/var/geocloud_platform/applications/opengeo_suite/master.yml -p create_db=true -p azskip=us-east-1a -p appname=ogrds`
