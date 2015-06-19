@@ -2,15 +2,9 @@
 			"name":"geoshape_geonode_lb",
 			
 			"vpc":{
-<% if !$deploy_id then %>
-				"vpc_name": "geoshape-geonode-vpc"
-<% else %>
-	<% if $environment == "dev" then %>
-				"vpc_name":"dev-vpc",
-	<% elsif $environment == "prod" then %>
-				"vpc_name":"prod-vpc",
-	<% end %>
-				"deploy_id":"<%= $deploy_id %>"
+				"vpc_name":"<%=$vpc_name %>"
+<% if $deploy_id then %>
+				,"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},
 			"rules": [
@@ -31,15 +25,9 @@
 		{
 			"name":"geoshape_geonode",
 			"vpc":{
-<% if !$deploy_id then %>
-				"vpc_name": "geoshape-geonode-vpc"
-<% else %>
-	<% if $environment == "dev" then %>
-				"vpc_name":"dev-vpc",
-	<% elsif $environment == "prod" then %>
-				"vpc_name":"prod-vpc",
-	<% end %>
-				"deploy_id":"<%= $deploy_id %>"
+				"vpc_name":"<%=$vpc_name %>"
+<% if $deploy_id then %>
+				,"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},
 			"rules": [
@@ -75,14 +63,8 @@
 		,{
 			"name":"postgres",
 			"vpc":{
-<% if !$deploy_id then %>
-				"vpc_name": "geoshape-geonode-vpc"
-<% else %>
-	<% if $environment == "dev" then %>
-				"vpc_name":"dev-vpc",
-	<% elsif $environment == "prod" then %>
-				"vpc_name":"prod-vpc",
-	<% end %>
+				"vpc_name":"<%=$vpc_name %>",
+<% if $deploy_id then %>
 				"deploy_id":"<%= $deploy_id %>"
 <% end %>
 			},

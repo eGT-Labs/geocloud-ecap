@@ -6,19 +6,14 @@
         "recipe[python]",
         "recipe[java]",
         "recipe[tomcat]",
+        "recipe[build-essential]",
         "recipe[boundless::opengeo-suite]",
-        "recipe[cap-tools::ebs_rolling_snapshots]"
+        "recipe[boundless::gsconfig]",
+        "recipe[mu-tools::ebs_rolling_snapshots]"
     ],
     "description" : "Boundless Opengeo Suite",
     "chef_type" : "role",
     "override_attributes" : {
-        "java" : {
-            "install_flavor" : "oracle",
-            "jdk_version" : 7,
-            "oracle" : {
-                "accept_oracle_download_terms" : true
-            }
-        },
         "tomcat" : {
             "base_version" : 7
         }

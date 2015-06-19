@@ -1,0 +1,32 @@
+<%
+$bastion_name="bastion" if !$bastion_name
+$region = "us-east-1" if !$region
+$appname="opengeosuite" if !$appname
+$vpc_name = "vpc" if !$vpc_name
+$azs = listAZs
+# Now remove an invalid AZ if any specified
+if $azskip
+	puts "azs starts as #{$azs}"
+	$azs.delete($azskip)
+	puts "deleted #{$azskip}, AZs are now #{$azs}"
+end
+%>
+
+appname: <%= $appname %>
+region: <%= $region %>
+<% if !$deploy_id %>
+vpcs:
+  <%= include("vpc.yml") %>
+servers:
+  <%= include("bastion.yml") %>
+<% end %>
+loadbalancers:
+  <%= include("lb.yml") %>
+server_pools:
+  <%= include("pool.yml") %>
+firewall_rules:
+  <%= include("sgs.yml") %>
+<% if $create_db %>
+databases:
+  <%= include("postgres_rds.yml") %>
+<% end %>

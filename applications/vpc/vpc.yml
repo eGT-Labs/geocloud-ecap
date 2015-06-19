@@ -1,0 +1,36 @@
+- name: <%= $vpc_name %>
+  ip_block: <%= $vpc_cidr %>
+  route-tables:
+  - name: internet
+    routes:
+    - destination_network: 0.0.0.0/0
+      gateway: "#INTERNET"
+  - name: private
+    routes:
+    - destination_network: 0.0.0.0/0
+      nat_host_name: <%= $bastion_name %>
+  dependencies:
+  - type: server
+    name: <%= $bastion_name %>
+  subnets:
+<%
+counter=0
+(1..$azs.size).each do |i|
+%>
+  - name: Public<%= counter %>
+    ip_block: <%= $vpc_cidr.split('.')[0..1].join('.') %>.<%= counter %>.0/24
+    availability-zone: "<%= $azs[i-1] %>"
+    route-table: internet
+<%
+  counter = counter + 1
+end
+last_pub_subnet_num = counter
+(1..$azs.size).each do |i|
+%>
+  - name: Private<%= counter-last_pub_subnet_num %>
+    ip_block: <%= $vpc_cidr.split('.')[0..1].join('.') %>.<%= counter %>.0/24
+    availability-zone: "<%= $azs[i-1] %>"
+    route-table: private
+<%
+  counter = counter + 1
+end %>

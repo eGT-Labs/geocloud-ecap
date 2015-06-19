@@ -1,5 +1,5 @@
 		{
-			"name":"geonode",
+			"name":"geoshape-pool",
 			"min-size":1,
 			"max-size":1,
 			"associate-public-ip":true,
@@ -27,44 +27,14 @@
 					"rule_name":"geoshape_geonode"
 				}
 			],
-			"vpc":{
-<% if !$deploy_id then %>
-				"vpc_name":"geoshape-geonode-vpc",
-				"nat_host_name":"bastion",
-				"nat_ssh_user":"root",
-				"subnets":[
-					{
-						"subnet_name":"Public1"
-					},
-					{
-						"subnet_name":"Public2"
-					},
-					{
-						"subnet_name":"Public3"
-					}
-				]
-<% else %>
-	<% if $environment == "dev" then %>
-				"vpc_name":"dev-vpc",
-				"nat_host_name":"dev-vpc-bastion",
-	<% elsif $environment == "prod" then %>
-				"vpc_name":"prod-vpc",
-				"nat_host_name":"prod-vpc-bastion",
-	<% end %>
-				"deploy_id":"<%= $deploy_id %>",
-				"nat_ssh_user":"root",
-				"subnets":[
-					{
-						"subnet_name":"PubSubnet1"
-					},
-					{
-						"subnet_name":"PubSubnet2"
-					},
-					{
-						"subnet_name":"PubSubnet3"
-					}
-				]
-<% end %>
+			"vpc": {
+				"vpc_name":"<%=$vpc_name %>",
+				<% if $deploy_id then %>
+        "deploy_id":"<%= $deploy_id %>",
+				<% end %>
+				"subnet_pref": "all_private",
+				"nat_host_name":"<%=$bastion_name %>",
+				"nat_ssh_user":"<%=$nat_ssh_user %>"
 			},
 		    "vault_access" : [{
 		            "vault" : "geoshape_geonode",
@@ -79,17 +49,17 @@
 				"launch-config":{
 					"name":"geoshape_geonode",
 <% if $centos then %>
-	<%= CAP::Config.include("../centos-ami.json") %>,
+	<%= include("../centos-ami.json") %>,
 <% elsif $ubuntu then %>
-	<%= CAP::Config.include("../ubuntu-ami.json") %>,
+	<%= include("../ubuntu-ami.json") %>,
 <% end %>
 					"iam-policies":[
-<%= CAP::Config.include("../default_iam_node_policies.json") %>
+<%= include("../default_iam_node_policies.json") %>
 					],
 <% if $environment == "dev" then %>
-					"size":"m3.large",
+					"size":"m3.medium",
 <% else %>
-					"size":"m3.xlarge",
+					"size":"m3.large",
 <% end %>
 					"storage":[
 						{

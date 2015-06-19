@@ -1,0 +1,28 @@
+<%
+# set up defaults
+$bastion_name="bastion" if !$bastion_name
+$nat_ssh_user="root" if !$nat_ssh_user
+$region = "us-east-1" if !$region
+$appname="geonode" if !$appname
+$vpc_name = $appname+"-vpc" if !$vpc_name
+$public_subnet = "Public" if !$public_subnet
+puts $bastion_name, $nat_ssh_user, $region, $appname, $vpc_name,$deploy_id,$public_subnet
+%>
+---
+appname: "<%=$appname%>"
+region: "<%= $region %>"
+<% if !$deploy_id then %>
+vpcs:
+  <%= include("vpc.yaml") %>
+<% end %>
+<% if !$deploy_id then %>
+servers:
+  <%= include("bastion.yaml") %>
+<% end %>
+# could put other nonconditional servers here
+loadbalancers:
+  <%= include("geonode-lb.yaml") %>
+server_pools:
+  <%= include("geonode-pool.yaml") %>
+firewall_rules:
+  <%= include("geonode-security_groups.yaml") %>

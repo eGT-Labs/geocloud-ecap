@@ -1,0 +1,27 @@
+  - name: postgis
+    engine: postgres
+    <% if !$public_db %>
+    publicly_accessible: false
+    <% end %>
+    size: db.t2.medium
+    port: 5432
+    storage: 50
+    add_firewall_rules: 
+      - rule_name: postgres
+    vpc:
+      <% if $deploy_id %>
+      deploy_id: <%= $deploy_id %>
+      <% else %>
+      vpc_name: <%= $vpc_name %>
+      <% end %>
+    <% if $public_db %>
+      subnet_pref: all_public
+    <% else %>
+      subnet_pref: all_private
+    <% end %>
+    <% if !$deploy_id %>
+    dependencies:
+    - name: <%= $bastion_name %>
+      type: server
+      phase: deploy
+    <% end %>

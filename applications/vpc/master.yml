@@ -1,0 +1,20 @@
+<%
+$bastion_name="bastion" if !$bastion_name
+$region = "us-east-1" if !$region
+$appname="geocloud" if !$appname
+$vpc_name = "vpc" if !$vpc_name
+$vpc_cidr = "10.20.0.0/16" if !$vpc_cidr
+$azs = listAZs
+# Now remove an invalid AZ if any specified
+if $azskip
+	puts "azs starts as #{$azs}"
+	$azs.delete($azskip)
+	puts "deleted #{$azskip}, AZs are now #{$azs}"
+end
+%>
+appname: <%= $appname %>
+region: <%= $region %>
+vpcs:
+<%= include("vpc.yml") %>
+servers:
+<%= include("bastion.yml") %>

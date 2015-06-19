@@ -1,6 +1,4 @@
-node.default['postgis']['version'] = '2.0.4'
-node.default['postgis']['template_name'] = 'template_postgis'
-node.default['postgis']['locale'] = 'en_US.utf8'
+
 
 # apt_repository "opengeo" do
   # uri 'http://apt.opengeo.org/suite/v4/ubuntu/'
@@ -10,6 +8,7 @@ node.default['postgis']['locale'] = 'en_US.utf8'
 # end
 
 if node.rogue.postgis.install_from_source
+	node.normal.postgis.version = '2.0.4'
 	include_recipe 'build-essential'
 	# Download PostGIS
 	remote_file "#{Chef::Config['file_cache_path']}/postgis-#{node['postgis']['version']}.tar.gz" do
@@ -28,25 +27,25 @@ if node.rogue.postgis.install_from_source
 	  action :nothing
 	end
 else
-	["postgresql-9.3-postgis-2.1", "postgresql-9.3-postgis-2.1-scripts"].each do |pkg|
+	["postgresql-#{node.postgresql.version}-postgis-#{node.postgis.version}", "postgresql-#{node.postgresql.version}-postgis-#{node.postgis.version}-scripts"].each do |pkg|
 		package pkg
 	end
 end
 
-if node['postgis']['template_name']
+if node.postgis.template_name
   execute 'create_postgis_template' do
-    not_if "psql -qAt --list | grep -q '^#{node['postgis']['template_name']}\|'", :user => 'postgres'
+    not_if "psql -qAt --list | grep -q '^#{node.postgis.template_name}\|'", :user => 'postgres'
     user 'postgres'
     command <<-CMD
-    (createdb -E UTF8 --locale=#{node['postgis']['locale']} #{node['postgis']['template_name']} -T template0) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/postgis.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/spatial_ref_sys.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/postgis_comments.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/rtpostgis.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/raster_comments.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/topology.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/topology_comments.sql) &&
-    (psql -d #{node['postgis']['template_name']} -f `pg_config --sharedir`/contrib/postgis-2.1/legacy.sql)
+    (createdb -E UTF8 --locale=#{node['postgis']['locale']} #{node.postgis.template_name} -T template0) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/postgis.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/spatial_ref_sys.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/postgis_comments.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/rtpostgis.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/raster_comments.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/topology.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/topology_comments.sql) &&
+    (psql -d #{node.postgis.template_name} -f `pg_config --sharedir`/contrib/postgis-#{node.postgis.version}/legacy.sql)
     CMD
     action :run
   end

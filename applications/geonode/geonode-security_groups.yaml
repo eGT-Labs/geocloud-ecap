@@ -1,0 +1,13 @@
+- name: "geonode_secgroup"
+  vpc:
+    vpc_name: "<%=$vpc_name %>"
+    <% if $deploy_id %>
+    deploy_id: "<%=$deploy_id %>"
+    <% end %>
+  rules: 
+  - port: 80
+    lbs: 
+    - "geonode-lb"
+  dependencies: 
+  - type: "loadbalancer"
+    name: "geonode-lb"

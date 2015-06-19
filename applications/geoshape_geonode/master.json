@@ -1,18 +1,23 @@
 {
 <%
-
+# set up defaults
 $ubuntu = true if !$centos
 $centos = true if !$ubuntu
 if $ubuntu and $centos
 	raise "You must specify either ubuntu or centos"
 end
-
 $public_db=false if !$public_db
-
+$bastion_name="bastion" if !$bastion_name
+$nat_ssh_user="root" if !$nat_ssh_user
+$region = "us-east-1" if !$region
+$appname="geoshape" if !$appname
+$vpc_name = $appname+"-vpc" if !$vpc_name
+puts "Deploying with bastion name, nat ssh user, region, appname, vpc name, deploy id ",$bastion_name, $nat_ssh_user, $region, $appname, $vpc_name,$deploy_id
 %>
 
-	"appname": "geoshape",
-	"region": "us-east-1",
+
+	"appname": "<%=$appname %>",
+	"region": "<%=$region %>",
 	"admins": [
 		{
 			"name": "Ami Rahav",
@@ -28,24 +33,24 @@ $public_db=false if !$public_db
 	],
 <% if !$deploy_id then %>
     "vpcs": [
-<%= CAP::Config.include("vpc.json") %>
+<%= include("vpc.json") %>
     ],
     "servers": [
-<%= CAP::Config.include("bastion.json") %>
+<%= include("bastion.json") %>
     ],
 <% end %>
 	"loadbalancers": [
-<%= CAP::Config.include("lb.json") %>
+<%= include("lb.json") %>
 	],
 <% if $rds then %>
 	"databases":[
-<%= CAP::Config.include("postgis_dbs.json") %>
+<%= include("postgis_dbs.json") %>
 	],
 <% end %>
 	"server_pools":[
-<%= CAP::Config.include("pool.json") %>
+<%= include("pool.json") %>
 	],
 	"firewall_rules":[
-<%= CAP::Config.include("security_groups.json") %>
+<%= include("security_groups.json") %>
 	]
 }

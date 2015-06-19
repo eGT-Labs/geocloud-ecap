@@ -10,21 +10,21 @@ node.normal.geoserver.ad.enabled = true
 case node[:platform]
 	when "centos"
 
-		role_id = shell_out("grep '<id>' #{node.ogeosuite.geoserver.data_dir}/security/role/ad/config.xml")
+		role_id = shell_out("grep '<id>' #{node.suite.geoserver.data_dir}/security/role/ad/config.xml")
 		if role_id.stdout.empty?
 			$ad_role_id = "<id>33516643:148c9b995fe:-8000</id>"
 		else
 			$ad_role_id = role_id.stdout
 		end
 
-		provider_id = shell_out("grep '<id>' #{node.ogeosuite.geoserver.data_dir}/security/auth/ad/config.xml")
+		provider_id = shell_out("grep '<id>' #{node.suite.geoserver.data_dir}/security/auth/ad/config.xml")
 		if provider_id.stdout.empty?
 			$ad_provider_id = "<id>-6143a188:148c98eb412:-8000</id>"
 		else
 			$ad_provider_id = provider_id.stdout
 		end
 
-		template "#{node.ogeosuite.geoserver.data_dir}/security/config.xml" do
+		template "#{node.suite.geoserver.data_dir}/security/config.xml" do
 			source "gs_ad/config_ad.xml.erb"
 			owner "tomcat"
 			group "tomcat"
@@ -32,11 +32,11 @@ case node[:platform]
 			notifies :restart, 'service[tomcat7]', :delayed
 		end
 
-		file "#{node.ogeosuite.webapps}/geoserver/WEB-INF/lib/commons-lang-2.1.jar" do
+		file "#{node.suite.webapps}/geoserver/WEB-INF/lib/commons-lang-2.1.jar" do
 			action :delete
 		end
 
-		cookbook_file "#{node.ogeosuite.webapps}/geoserver/WEB-INF/lib/commons-lang-2.4.jar" do
+		cookbook_file "#{node.suite.webapps}/geoserver/WEB-INF/lib/commons-lang-2.4.jar" do
 			source "commons-lang-2.4.jar"
 			owner "tomcat"
 			group "tomcat"
@@ -45,14 +45,14 @@ case node[:platform]
 		end
 
 		%w{role auth}.each do |type|
-			directory "#{node.ogeosuite.geoserver.data_dir}/security/#{type}/ad" do
+			directory "#{node.suite.geoserver.data_dir}/security/#{type}/ad" do
 				recursive true
 				owner "tomcat"
 				group "tomcat"
 				mode 0750
 			end
 
-			template "#{node.ogeosuite.geoserver.data_dir}/security/#{type}/ad/config.xml" do
+			template "#{node.suite.geoserver.data_dir}/security/#{type}/ad/config.xml" do
 				source "gs_ad/config_#{type}.xml.erb"
 				owner "tomcat"
 				group "tomcat"

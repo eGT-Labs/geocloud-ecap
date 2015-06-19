@@ -1,5 +1,5 @@
 		{
-			"name": "geoshape-geonode-vpc",
+			"name": "<%=$vpc_name %>",
 			"route-tables": [
 				{
 					"name": "internet",
@@ -15,7 +15,7 @@
 					"routes": [
 						{
 							"destination_network":"0.0.0.0/0",
-							"nat_host_name":"bastion"
+							"nat_host_name":"<%=$bastion_name %>"
 						}
 					]
 				}
@@ -23,12 +23,12 @@
 			"dependencies":[
 				{
 					"type":"server",
-					"name":"bastion"
+					"name":"<%=$bastion_name %>"
 				}
 			],
 			"subnets": [
 <%
-azs = CAP::Deploy.listAZs
+azs = listAZs
 puts "azs starts as #{azs}"
 azs.each do |raz|
   puts "==looking at #{raz}=="
@@ -55,15 +55,15 @@ azs.each do |az|
 		counter = counter + 1
 	end
 end
-(1..3).each do |i|
+(1..azs.size).each do |i|
 %>
 				{
 					"name":"Private<%= i %>",
 					"ip_block":"10.0.<%= counter %>.0/24",
-					"availability-zone":"<%= azs[i] %>",
+					"availability-zone":"<%= azs[i-1] %>",
 					"route-table":"private"
 		<% counter = counter + 1 %>
-		<% if i < 3 %>
+		<% if i < azs.size %>
 				},
 		<% else %>
 				}
