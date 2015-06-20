@@ -10,6 +10,15 @@ else
 	default.suite.java_max_heap_size = "#{ ( node.memory.total.to_i * 0.6 ).floor / 1024 }m"
 end
 
+default.suite.version = 4.6
+if node.suite.version == 4
+	default.suite.geoserver.version = 2.5
+elsif node.suite.version == 4.5
+	default.suite.geoserver.version = 2.6
+elsif node.suite.version == 4.6
+	default.suite.geoserver.version = 2.7
+end
+
 default.geoserver.cntrl_flw.timeout = 120
 default.geoserver.cntrl_flw.user = 8
 default.geoserver.cntrl_flw.ows.global = 300

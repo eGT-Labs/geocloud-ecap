@@ -150,14 +150,16 @@ when "centos"
 
 	directory "#{Chef::Config[:file_cache_path]}/gs_extensions"
 
+	[
+		"geoserver-#{node.suite.geoserver.version}-SNAPSHOT-feature-pregeneralized-plugin.zip", "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-imagemap-plugin.zip", "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-imagemosaic-jdbc-plugin.zip",
+		"geoserver-#{node.suite.geoserver.version}-SNAPSHOT-libjpeg-turbo-plugin.zip", "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-pyramid-plugin.zip",  "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-ogr-plugin.zip", 
+		"geoserver-#{node.suite.geoserver.version}-SNAPSHOT-xslt-plugin.zip", "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-printing-plugin.zip", "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-gdal-plugin.zip", 
+		"geoserver-#{node.suite.geoserver.version}-SNAPSHOT-css-plugin.zip", "geoserver-#{node.suite.geoserver.version}-SNAPSHOT-sldservice-plugin.zip"
+	].each do |file|
 	# geoserver-mongodb
-	%w{geoserver-2.6-SNAPSHOT-wms-eo-plugin.zip geoserver-2.6-SNAPSHOT-app-schema-plugin.zip geoserver-2.6-SNAPSHOT-arcsde-plugin.zip geoserver-2.6-SNAPSHOT-feature-pregeneralized-plugin.zip geoserver-2.6-SNAPSHOT-imagemap-plugin.zip geoserver-2.6-SNAPSHOT-imagemosaic-jdbc-plugin.zip 
-	   geoserver-2.6-SNAPSHOT-libjpeg-turbo-plugin.zip geoserver-2.6-SNAPSHOT-oracle-plugin.zip geoserver-2.6-SNAPSHOT-pyramid-plugin.zip geoserver-2.6-SNAPSHOT-querylayer-plugin.zip geoserver-2.6-SNAPSHOT-wcs2_0-eo-plugin.zip geoserver-2.6-SNAPSHOT-monitor-hibernate-plugin.zip 
-	   geoserver-2.6-SNAPSHOT-monitor-plugin.zip geoserver-2.6-SNAPSHOT-ogr-plugin.zip geoserver-2.6-SNAPSHOT-sqlserver-plugin.zip geoserver-2.6-SNAPSHOT-xslt-plugin.zip geoserver-2.6-SNAPSHOT-printing-plugin.zip geoserver-2.6-SNAPSHOT-gdal-plugin.zip geoserver-2.6-SNAPSHOT-css-plugin.zip
-	   geoserver-2.6-SNAPSHOT-sldservice-plugin.zip geoserver-2.6-SNAPSHOT-python-plugin.zip geoserver-2.6-SNAPSHOT-mbtiles-plugin.zip geoserver-2.6-SNAPSHOT-netcdf-plugin.zip geoserver-2.6-SNAPSHOT-netcdf-out-plugin.zip geoserver-2.6-SNAPSHOT-groovy-plugin.zip mongodb.zip}.each do |file|
 		s3_file "#{Chef::Config[:file_cache_path]}/gs_extensions/#{file}" do
 			bucket node.suite.s3_bucket
-			remote_path "#{node.suite.s3_bucket_path}/geoserver_extensions/gs_2.6.x/#{file}"
+			remote_path "#{node.suite.s3_bucket_path}/geoserver_extensions/gs_#{node.suite.geoserver.version}.x/#{file}"
 		end
 		execute "unzip -u -n #{Chef::Config[:file_cache_path]}/gs_extensions/#{file} -d #{node.suite.webapps}/geoserver/WEB-INF/lib"
 	end

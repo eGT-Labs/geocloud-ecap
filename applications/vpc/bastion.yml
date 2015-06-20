@@ -1,29 +1,11 @@
 - name: <%= $bastion_name %>
-  ssh_user: root
   size: t2.micro
+  platform: centos7
   src-dst-check: false
   static_ip:
     assign_ip: true
   iam-policies:
-  - CloudWatch-Logs:
-      Version: 2012-10-17
-      Statement:
-        -
-          Effect: Allow
-          Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:DeleteRetentionPolicy
-            - logs:DescribeLogGroups
-            - logs:DescribeLogStreams
-            - logs:DescribeMetricFilters
-            - logs:GetLogEvents
-            - logs:PutLogEvents
-            - logs:PutMetricFilter
-            - logs:PutRetentionPolicy
-            - logs:TestMetricFilter
-          Resource:
-            - "*"
+    <%= include("../default_iam_node_policies.yml") %>
   vpc:
     vpc_name: <%= $vpc_name %>
   application_attributes:

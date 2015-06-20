@@ -1,0 +1,91 @@
+<%
+
+    raise "You must set deploy_id (e.g. -p deploy_id=MALARIAMAP-PROD-2015061921-HU)" unless $deploy_id
+    raise "You must set db_identifier (e.g. -p db_identifier=opengeo-suite-dev-2015011302-sl-postgis)" unless $db_identifier
+    $region = "us-east-1" unless $region
+    $nat_ssh_user = "centos" unless $nat_ssh_user
+
+%>
+
+appname: malariamap
+region: <%= $region %>
+servers:
+- name: geoserver
+  dns_sync_wait: false
+  tags:
+  - key: PROJECT
+    value: malariamap
+  size: t2.medium
+  storage:
+  - device: /dev/xvdf
+    size: 100
+  static_ip:
+    assign_ip: true
+  dependencies:
+  - name: postgis
+    type: database
+  application_attributes:
+    create_db: true
+  vpc:
+    deploy_id: <%= $deploy_id %>
+    subnet_pref: public
+    nat_ssh_user: <%= $nat_ssh_user %>
+  add_firewall_rules:
+    - rule_name: geoserver
+  run_list:
+  - role[malaria_map]
+  vault_access:
+  - vault: opengeo_suite
+    item: gs_admin
+  - vault: opengeo_suite
+    item: postgres
+  iam-policies:
+    <%= include("../default_iam_node_policies.yml") %>
+    <%= include("iam_policies.yml") %>
+
+firewall_rules:
+- name: geoserver
+  tags:
+  - key: PROJECT
+    value: malariamap
+  vpc:
+    deploy_id: <%= $deploy_id %>
+  rules:
+  - port: 80
+    hosts:
+    - 0.0.0.0/0
+  - port: 443
+    hosts:
+    - 0.0.0.0/0
+- name: postgres
+  tags:
+  - key: PROJECT
+    value: malariamap
+  vpc:
+    deploy_id: <%= $deploy_id %>
+  rules: 
+  - port: 5432
+    sgs:
+    - geoserver
+
+databases:
+- name: postgis
+  dns_sync_wait: false
+  tags:
+  - key: PROJECT
+    value: malariamap
+  engine: postgres
+  publicly_accessible: false
+  multi_az_on_deploy: false
+  multi_az_on_create: false
+  creation_style: existing_snapshot
+  identifier: <%= $db_identifier %>
+  size: db.t2.medium
+  port: 5432
+  storage: 30
+  backup_retention_period: 35
+  add_firewall_rules: 
+    - rule_name: postgres
+  vpc:
+    deploy_id: <%= $deploy_id %>
+    subnet_pref: all_private
