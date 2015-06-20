@@ -21,6 +21,8 @@ case node[:platform]
 			end
 		}
 
+		package "php"
+
 		execute "setsebool -P httpd_can_network_connect 1" do
 			not_if "grep httpd_can_network_connect=1 /etc/selinux/targeted/modules/active/booleans.local"
 		end
