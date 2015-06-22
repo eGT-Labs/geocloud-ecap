@@ -44,7 +44,7 @@ case node[:platform]
 			not_if { Dir.exist?("#{node.apache.docroot_dir}/css") }
 		end
 
-		execute "sed -i 's_\^.ht_\^\\.ht_' #{node.apache.conf_dir}/httpd.conf" do
+		execute "sed -i 's_\\^.ht_\\^\\\\.ht_' #{node.apache.conf_dir}/httpd.conf" do
 			only_if "grep -F ^.ht #{node.apache.conf_dir}/httpd.conf"
 			notifies :reload, "service[apache2]", :delayed
 		end
