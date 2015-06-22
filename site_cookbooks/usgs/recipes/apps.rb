@@ -30,7 +30,7 @@ case node[:platform]
 		web_app "vhosts" do
 			server_name "malariamap.usgs.gov"
 			server_aliases [ node.fqdn, node.hostname ]
-			docroot "/var/www/html"
+			docroot node.apache.docroot_dir
 			allow_override "All"
 			template "vhosts.conf.erb"
 		end
@@ -40,12 +40,16 @@ case node[:platform]
 			remote_path "/malariamap-www.zip"
 		end
 
-		execute "unzip -u -n #{Chef::Config[:file_cache_path]}/malariamap.zip -d /var/www/html" do
-			not_if { Dir.exist?("/var/www/html/css") }
+		execute "unzip -u -n #{Chef::Config[:file_cache_path]}/malariamap.zip -d #{node.apache.docroot_dir}" do
+			not_if { Dir.exist?("#{node.apache.docroot_dir}/css") }
 		end
 
+		execute "sed -i 's_\^.ht_\^\\.ht_' #{node.apache.conf_dir}/httpd.conf" do
+			only_if "grep -F ^.ht #{node.apache.conf_dir}/httpd.conf"
+			notifies :reload, "service[apache2]", :delayed
+		end
 
-		execute "find /var/www/html -type d -exec chmod 755 {} +; find /var/www/html -type f -exec chmod 644 {} +; chcon -R -h -t httpd_sys_content_t /var/www/html" do
+		execute "find #{node.apache.docroot_dir} -type d -exec chmod 755 {} +; find #{node.apache.docroot_dir} -type f -exec chmod 644 {} +; chcon -R -h -t httpd_sys_content_t #{node.apache.docroot_dir}" do
 			returns [0,1]
 		end
 

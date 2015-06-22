@@ -265,26 +265,26 @@ when "centos"
 		notifies :start, 'service[tomcat7]', :immediately
 	end
 
-	ruby_block "Wait for #{node.suite.geoserver.data_dir}/monitoring directory" do
-		block do
-			retries = 0
-			begin
-				retries = retries + 1
-				sleep 5
-			end while !Dir.exist?("#{node.suite.geoserver.data_dir}/monitoring") and retries < 10
-		end
-		not_if { Dir.exists?("#{node.suite.geoserver.data_dir}/monitoring") }
-	end
+	# ruby_block "Wait for #{node.suite.geoserver.data_dir}/monitoring directory" do
+		# block do
+			# retries = 0
+			# begin
+				# retries = retries + 1
+				# sleep 5
+			# end while !Dir.exist?("#{node.suite.geoserver.data_dir}/monitoring") and retries < 10
+		# end
+		# not_if { Dir.exists?("#{node.suite.geoserver.data_dir}/monitoring") }
+	# end
 
-	%w{content.ftl filter.properties footer.ftl header.ftl monitor.properties}.each { |file|
-		cookbook_file "#{node.suite.geoserver.data_dir}/monitoring/#{file}" do
-			source "gs_monitor/#{file}"
-			owner 'tomcat'
-			group 'tomcat'
-			mode 0644
-			notifies :restart, 'service[tomcat7]'
-		end
-	}
+	# %w{content.ftl filter.properties footer.ftl header.ftl monitor.properties}.each { |file|
+		# cookbook_file "#{node.suite.geoserver.data_dir}/monitoring/#{file}" do
+			# source "gs_monitor/#{file}"
+			# owner 'tomcat'
+			# group 'tomcat'
+			# mode 0644
+			# notifies :restart, 'service[tomcat7]'
+		# end
+	# }
 
 	execute "python #{Chef::Config[:file_cache_path]}/mod_xml.py -d #{node.suite.geoserver.data_dir}"
 	execute "python #{Chef::Config[:file_cache_path]}/mod_gs_contact.py -u #{$gs_admin_usr} -p \"#{$gs_admin_pwd}\""
