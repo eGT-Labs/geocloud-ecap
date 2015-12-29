@@ -13,16 +13,139 @@ appname: "<%=$appname%>"
 region: "<%= $region %>"
 <% if !$deploy_id then %>
 vpcs:
-<%= include("vpc.yaml") %>
+- name: "<%=$vpc_name %>"
+  route-tables: 
+  - name: "internet"
+    routes: 
+      - destination_network: "0.0.0.0/0"
+        gateway: "#INTERNET"
+  - name: "private"
+    routes: 
+      - destination_network: "0.0.0.0/0"
+        nat_host_name: "<%=$bastion_name %>"
+  subnets: 
+  - name: "Public1"
+    ip_block: "10.0.0.0/24"
+    route-table: "internet"
+    availability-zone: "us-east-1b"
+  - name: "Public2"
+    ip_block: "10.0.2.0/24"
+    route-table: "internet"
+    availability-zone: "us-east-1c"
+  - name: "Private1"
+    ip_block: "10.0.1.0/24"
+    route-table: "private"
+    availability-zone: "us-east-1b"
+  - name: "Private2"
+    ip_block: "10.0.3.0/24"
+    route-table: "private"
+    availability-zone: "us-east-1c"
+  dependencies: 
+  - type: "server"
+    name: "<%=$bastion_name %>"
 <% end %>
 <% if !$deploy_id then %>
 servers:
-<%= include("bastion.yaml") %>
+- name: "<%=$bastion_name %>"
+  ssh_user: "root"
+  size: "t2.micro"
+  skipinitialupdates: true
+  src-dst-check: false
+  static_ip: 
+    assign_ip: true
+  vpc: 
+    vpc_name: "<%=$vpc_name %>"
+    subnet_pref: "public"
+  ingress_rules: 
+  - proto: "icmp"
+    hosts: 
+    - "10.0.0.0/16"
+  - proto: "tcp"
+    port-range: "1-65535"
+    hosts: 
+    - "10.0.0.0/16"
+  - proto: "udp"
+    port-range: "1-65535"
+    hosts: 
+    - "10.0.0.0/16"
+  run_list: 
+  - "recipe[mu-utility::nat]"
 <% end %>
 # could put other nonconditional servers here
 loadbalancers:
-<%= include("geonode-lb.yaml") %>
+- name: "geonode-lb"
+  vpc:
+    vpc_name: "<%=$vpc_name %>"
+    <% if $deploy_id %>
+    deploy_id: "<%=$deploy_id %>"
+    <% end %>
+    subnet_pref: "all_public"
+  healthcheck: 
+    target: "HTTP:80/"
+    timeout: 2
+    interval: 5
+    unhealthy-threshold: 2
+    healthy-threshold: 2
+  listeners: 
+  - lb-port: 80
+    lb-protocol: "HTTP"
+    instance-port: 80
+    instance-protocol: "HTTP"
+  ingress_rules: 
+  - port: 80
+    hosts: 
+    - "0.0.0.0/0"
 server_pools:
-<%= include("geonode-pool.yaml") %>
+- name: "geonode-pool"
+<% puts "=========>,#{$deploy_id},#{$vpc_name},#{$bastion_name}" %>
+  min-size: 1
+  max-size: 1
+  skipinitialupdates: true
+  ssh_user: "ubuntu"
+  loadbalancers: 
+  - concurrent-load-balancer: "geonode-lb"
+  add_firewall_rules: 
+    - rule_name: "geonode_secgroup"
+  vpc:
+   vpc_name: "<%=$vpc_name %>"
+   <% if $deploy_id %>
+   deploy_id: "<%=$deploy_id %>"
+   <% end %>
+   subnet_pref: "all_private"
+   nat_host_name: "<%=$bastion_name %>"
+   nat_ssh_user: "root"
+  application_attributes:
+    superuser_username: "admin"
+    superuser_password: "ge0node_admin"
+  run_list: 
+  - "role[geonode]"
+  dependencies: 
+  - name: "geonode-lb"
+    type: "loadbalancer"
+  <% if !$deploy_id %>
+  - name: "<%=$bastion_name %>"
+    type: "server"
+    phase: "groom"
+  <% end %>
+  basis: 
+    launch-config: 
+      name: "geonode-launch"
+      size: "t2.medium"
+      iam-role: "mu_node_role"
+      <%= include("../hardened-ubuntu-14-ami-#{$region}.yaml") %>
+
 firewall_rules:
-<%= include("geonode-security_groups.yaml") %>
+- name: "geonode_secgroup"
+  vpc:
+    vpc_name: "<%=$vpc_name %>"
+    <% if $deploy_id %>
+    deploy_id: "<%=$deploy_id %>"
+    <% end %>
+  rules: 
+  - port: 80
+    lbs: 
+    - "geonode-lb"
+  dependencies: 
+  - type: "loadbalancer"
+    name: "geonode-lb"
+
