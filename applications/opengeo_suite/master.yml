@@ -3,7 +3,7 @@ $bastion_name="bastion" if !$bastion_name
 $region = "us-east-1" if !$region
 $appname="opengeosuite" if !$appname
 $vpc_name = "vpc" if !$vpc_name
-$azs = listAZs
+$azs = MU::Cloud::AWS.listAZs
 # Now remove an invalid AZ if any specified
 if $azskip
 	puts "azs starts as #{$azs}"
