@@ -1,0 +1,57 @@
+--- 
+appname: ckan23
+region: us-east-1
+servers: 
+  - 
+    ami_id: ami-50e3c738
+    ingress_rules: 
+      - 
+        hosts: 
+          - 10.0.0.0/16
+        proto: icmp
+      - 
+        hosts: 
+          - 10.0.0.0/16
+        port-range: 1-65535
+        proto: tcp
+      - 
+        hosts: 
+          - 10.0.0.0/16
+        port-range: 1-65535
+        proto: udp
+      - 
+        hosts: 
+          - 0.0.0.0/0
+        port: 80
+        proto: tcp
+    name: ckanserver
+    run_list: 
+      - "recipe[ckan::ckan_production]"
+    size: t2.medium
+    skipinitialupdates: true
+    src-dst-check: true
+    ssh_user: ubuntu
+    static_ip: 
+      assign_ip: true
+    vpc:
+      subnets: 
+        - 
+          subnet_name: public
+      vpc_name: vpc
+vpcs: 
+  - 
+    name: vpc
+    route-tables: 
+      - 
+        name: internet
+        routes: 
+          - 
+            destination_network: 0.0.0.0/0
+            gateway: "#INTERNET"
+    subnets: 
+      - 
+        availability-zone: us-east-1c
+        ip_block: 10.0.0.0/24
+        name: public
+        route-table: internet
+
